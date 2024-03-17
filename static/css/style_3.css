@@ -1,0 +1,7 @@
+.image-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-image: url('/static/img/like.png');
+  background-size: cover;
+}
