@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
-@app.route('/push', methods=['POST', 'GET'])
-def push():
+@app.route('/tinttye', methods=['POST', 'GET'])
+def tinttye():
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM users')
