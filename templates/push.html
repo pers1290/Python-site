@@ -13,22 +13,39 @@
 
 </head>
 <body>
+{% set users = file_list %}
 <div>
     <h5 style="background-color: SkyBlue; border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;"><img src="/static/img_2/tinttye.png" width="100" height="100"
                                            style="margin-left:30px"><input type="button" value="Сменить фон"
-                                                                           class="button_1"><input type="button" value="Контакты"
-                                                                           class="button_2"><input type="button" value="Сделать пост"
-                                                                           class="button_3"><button style="border-radius: 70px; border: 0; margin-left:50px"><img src="/static/img_2/profil.png" width="50" height="50" style="border-radius: 70px; margin-left:140px"></button></h5>
+                                                                           class="button_1"><input type="button"
+                                                                                                   value="Контакты"
+                                                                                                   class="button_2"><input
+            type="button" value="Сделать пост"
+            class="button_3"><a href="http://127.0.0.1:7000/registration"><img src="/static/img_2/profil.png" width="50"
+                                                                               height="50"
+                                                                               style="border-radius: 70px; margin-left:200px; border: 1;"></a>
+    </h5>
     <form class="login_form" method="post">
         <h6><br></h6>
-        {% for photo in file_list %}
+        {% for index in index_list %}
         <center>
-            <div style="background-color: white;border-radius: 30px;width: 500px;">
+            <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block;">
                 <h6><br></h6>
-                <center><h3>{{ photo[1] }} {{ photo[2] }}</h3></center>
-                <center><img src="{{ photo[-1] }}" width="460" height="600"></center>
+                <center><h3>{{ file_list[index][1] }} {{ file_list[index][2] }}</h3></center>
+                <center><img src="{{ file_list[index][-1] }}" width="360" height="500"></center>
                 <h6><br></h6>
+                <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
+                        style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
+            </div><!--
+            -->
+            <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block; margin-left:60px;">
+                <h6><br></h6>
+                <center><h3>{{ file_list[index + 1][1] }} {{ file_list[index + 1][2] }}</h3></center>
+                <center><img src="{{ file_list[index + 1][-1] }}" width="360" height="500"></center>
+                <h6><br></h6>
+                <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
+                        style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
             </div>
         </center>
         <h6><br></h6>
