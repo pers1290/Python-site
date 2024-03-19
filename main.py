@@ -24,8 +24,6 @@ def tinttye():
         for i in range(0, len_half + 1, 2):
             index_list.append(i)
         users.append(('', '', '', '', '', '/static/img_2/MARS-6.png'))
-    print(users)
-    print(index_list)
     return render_template('push.html', file_list=users, index_list=index_list)
 
 
