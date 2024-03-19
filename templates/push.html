@@ -11,13 +11,61 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style_3.css"/>
     <title>Tinttue</title>
 
+
 </head>
 <body>
 {% set users = file_list %}
-<div>
-    <h5 style="background-color: SkyBlue; border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;"><img src="/static/img_2/tinttye.png" width="100" height="100"
-                                           style="margin-left:30px"><input type="button" value="Сменить фон"
+<header style="background-color: #534B62;">
+    <img src="/static/img_2/tinttye.png" width="100" height="100"
+                                           style="margin-left: 2%" >
+
+<!--<div class="container">-->
+  <a href="https://github.com/pers1290/flask" class="btn" style="margin-left: 25 px">
+  <svg width="277" height="62">
+    <defs>
+        <linearGradient id="grad1">
+            <stop offset="0%" stop-color="#FF8282"/>
+            <stop offset="100%" stop-color="#E178ED" />
+        </linearGradient>
+    </defs>
+     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+  </svg>
+    <span>Сменить фон</span>
+</a>
+
+<a href="https://github.com/pers1290/flask" class="btn" style="margin-left: 40%">
+  <svg width="277" height="62">
+    <defs>
+        <linearGradient id="grad1">
+            <stop offset="0%" stop-color="#FF8282"/>
+            <stop offset="100%" stop-color="#E178ED" />
+        </linearGradient>
+    </defs>
+     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+  </svg>
+    <span>Месенджер</span>
+</a>
+
+<a href="https://github.com/pers1290/flask" class="btn" >
+  <svg width="277" height="62">
+    <defs>
+        <linearGradient id="grad1">
+            <stop offset="0%" stop-color="#FF8282"/>
+            <stop offset="100%" stop-color="#E178ED" />
+        </linearGradient>
+    </defs>
+     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+  </svg>
+    <span>Добавить пост</span>
+</a>
+    <a href="/registration"><img src="/static/img_2/profil.png" width="50"
+                                                                               height="50"
+                                                                               style="border-radius: 100px; margin-left: 0% ; border: 1;"></a>
+
+
+</header>
+<!--<h5 style="background-color: SkyBlue; border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;"><input type="button" value="Сменить фон"
                                                                            class="button_1"><input type="button"
                                                                                                    value="Контакты"
                                                                                                    class="button_2"><input
@@ -25,8 +73,8 @@
             class="button_3"><a href="http://127.0.0.1:7000/registration"><img src="/static/img_2/profil.png" width="50"
                                                                                height="50"
                                                                                style="border-radius: 70px; margin-left:200px; border: 1;"></a>
-    </h5>
-    <form class="login_form" method="post">
+</h5>-->
+   <form class="login_form" method="post">
         <h6><br></h6>
         {% for index in index_list %}
         <center>
@@ -37,8 +85,9 @@
                 <h6><br></h6>
                 <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
                         style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
-            </div><!--
-            -->
+            </div>
+
+
             <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block; margin-left:60px;">
                 <h6><br></h6>
                 <center><h3>{{ file_list[index + 1][1] }} {{ file_list[index + 1][2] }}</h3></center>
