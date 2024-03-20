@@ -7,9 +7,97 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/style_3.css"/>
-    <title>Tinttue</title>
+    <style>
+    * {box-sizing: border-box}
+    body {font-family: Verdana, sans-serif; margin:0}
+    .mySlides {display: none}
+    img {vertical-align: middle;}
+
+    .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .text {
+      color: #f2f2f2;
+      font-size: 15px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+    }
+
+
+    .dot {
+      cursor: pointer;
+      height: 15px;
+      width: 15px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+
+    .active, .dot:hover {
+      background-color: #717171;
+    }
+
+    .fade {
+
+      -webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 100.5s;
+    }
+
+    @-webkit-keyframes fade {
+      from {opacity: 1.1}
+      to {opacity: 1}
+    }
+
+    @keyframes fade {
+      from {opacity: 1.1}
+      to {opacity: 1}
+    }
+
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+      .prev, .next,.text {font-size: 11px}
+    }
+</style>
+    <title>Tinttye</title>
 
 
 </head>
@@ -20,7 +108,7 @@
                                            style="margin-left: 2%" >
 
 <!--<div class="container">-->
-  <a href="https://github.com/pers1290/flask" class="btn" style="margin-left: 25 px">
+  <a href="/change_fon" class="btn" style="margin-left: 25 px">
   <svg width="277" height="62">
     <defs>
         <linearGradient id="grad1">
@@ -43,7 +131,7 @@
     </defs>
      <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
   </svg>
-    <span>Месенджер</span>
+    <span>Мессенджер</span>
 </a>
 
 <a href="https://github.com/pers1290/flask" class="btn" >
@@ -64,58 +152,6 @@
 
 
 </header>
-<!--<h5 style="background-color: SkyBlue; border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;"><input type="button" value="Сменить фон"
-                                                                           class="button_1"><input type="button"
-                                                                                                   value="Контакты"
-                                                                                                   class="button_2"><input
-            type="button" value="Сделать пост"
-            class="button_3"><a href="http://127.0.0.1:7000/registration"><img src="/static/img_2/profil.png" width="50"
-                                                                               height="50"
-                                                                               style="border-radius: 70px; margin-left:200px; border: 1;"></a>
-</h5>-->
-   <form class="login_form" method="post">
-        <h6><br></h6>
-        {% for index in index_list %}
-        <center>
-            <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block;">
-                <h6><br></h6>
-                <center><h3>{{ file_list[index][1] }} {{ file_list[index][2] }}</h3></center>
-                <center><img src="{{ file_list[index][-1] }}" width="360" height="500"></center>
-                <h6><br></h6>
-                <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
-                        style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
-<!--                <button class="like-button">
-  <div class="like-wrapper">
-    <div class="ripple"></div>
-    <svg class="heart" width="24" height="24" viewBox="0 0 24 24">
-      <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"></path>
-    </svg>
-    <div class="particles" style="--total-particles: 6">
-      <div class="particle" style="--i: 1; --color: #7642F0"></div>
-      <div class="particle" style="--i: 2; --color: #AFD27F"></div>
-      <div class="particle" style="--i: 3; --color: #DE8F4F"></div>
-      <div class="particle" style="--i: 4; --color: #D0516B"></div>
-      <div class="particle" style="--i: 5; --color: #5686F2"></div>
-      <div class="particle" style="--i: 6; --color: #D53EF3"></div>
-    </div>
-  </div>-->
-</button>
-            </div>
-
-
-            <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block; margin-left:60px;">
-                <h6><br></h6>
-                <center><h3>{{ file_list[index + 1][1] }} {{ file_list[index + 1][2] }}</h3></center>
-                <center><img src="{{ file_list[index + 1][-1] }}" width="360" height="500"></center>
-                <h6><br></h6>
-                <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
-                        style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
-            </div>
-        </center>
-        <h6><br></h6>
-        {% endfor %}
-    </form>
-</div>
+{% block content %} {% endblock %}
 </body>
 </html>

@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request
 import sqlite3
 
 app = Flask(__name__)
@@ -16,20 +16,28 @@ def tinttye():
     connection.close()
     len_db = len(users)
     index_list = []
-    len_half = (len_db // 2) + 1
     if len_db % 2 == 0:
-        for i in range(0, len_half, 2):
+        for i in range(0, len_db, 2):
             index_list.append(i)
     else:
-        for i in range(0, len_half + 1, 2):
+        for i in range(0, len_db + 1, 2):
             index_list.append(i)
-        users.append(('', '', '', '', '', '/static/img_2/MARS-6.png'))
-    return render_template('push.html', file_list=users, index_list=index_list)
+        users.append(('', 'Tinttye', 'bot', '', '', '/static/img_2/MARS-6.png'))
+    return render_template('main.html', file_list=users, index_list=index_list)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     return render_template('registration.html')
+
+
+@app.route('/change_fon', methods=['POST', 'GET'])
+def change_fon():
+    if request.method == 'GET':
+        return render_template('change_fon.html')
+    elif request.method == 'POST':
+        print(request.form.get('clicks'))
+        return render_template('change_fon.html')
 
 
 if __name__ == '__main__':
