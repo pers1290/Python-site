@@ -40,5 +40,9 @@ def change_fon():
         return render_template('change_fon.html')
 
 
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    return render_template('registr.html')
+
 if __name__ == '__main__':
     app.run(port=7000, host='127.0.0.1')
