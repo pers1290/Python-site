@@ -1,30 +1,37 @@
 {% extends "push.html" %}
 
 {% block content %}
-<div class="slideshow-container">
+<div class="slideshow-container" style="margin-left: 0.04%; display: inline-block;">
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_1.jpg" width="1000" height="610">
-        <div class="text">Фон №1</div>
+        <img src="/static/fon_img/fon_1.jpg" width="1200px" height="800px">
+        <div class="text"><h5>Фон №1</h5></div>
     </div>
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_2.jpg" width="1000" height="610">
-        <div class="text">Фон №2</div>
+        <img src="/static/fon_img/fon_2.jpg" width="1200px" height="800px">
+        <div class="text"><h5>Фон №2</h5></div>
     </div>
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_3.jpg" width="1000" height="610">
-        <div class="text">Фон №3</div>
+        <img src="/static/fon_img/fon_3.jpg" width="1200px" height="800px">
+        <div class="text"><h5>Фон №3</h5></div>
     </div>
 
     <a class="prev" onclick="plusSlides(-1)">❮</a>
     <a class="next" onclick="plusSlides(1)">❯</a>
-<div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
+    <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
 </div>
+<div style="display: inline-block; margin-right: 0,01%; margin-top: 50px;">
+    <form class="login_form" method="post">
+        <input id="firstname" class="input" type="text" name="text" placeholder="Введите номер фона" />
+        <h6>{{ error }}</h6>
+        <button class="submit">Применить</button>
+    </form>
 </div>
 <script>
     var slideIndex = 1;
