@@ -12,7 +12,7 @@ def tinttye():
     global fon
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM users')
+    cursor.execute('SELECT * FROM Users WHERE img_id != ""')
     users = cursor.fetchall()
     connection.commit()
     connection.close()
@@ -24,7 +24,7 @@ def tinttye():
     else:
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
-        users.append(('', 'Tinttye', 'bot', '', '', '/static/img_2/MARS-6.png'))
+        users.append(('', 'Tinttye', 'bot', '', '', '', '', '/static/img_2/MARS-6.png'))
     return render_template('main.html', file_list=users, index_list=index_list, fon=fon)
 
 
@@ -56,7 +56,21 @@ def change_fon():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    return render_template('registr.html')
+    if request.method == 'GET':
+        return render_template('registr.html')
+    elif request.method == 'POST':
+        answer_1 = request.form.get('firstname')
+        answer_2 = request.form.get('surname')
+        answer_3 = request.form.get('email')
+        answer_4 = request.form.get('pasvord')
+        connection = sqlite3.connect('db/User.db')
+        cursor = connection.cursor()
+        cursor.execute(
+            'INSERT INTO Users (name, surname, phone, password, res1, res2, img_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (answer_1, answer_2, answer_3, answer_4, '', '', ''))
+        connection.commit()
+        connection.close()
+        return render_template('registr.html')
 
 
 if __name__ == '__main__':
