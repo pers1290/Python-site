@@ -71,7 +71,7 @@ def login():
             # connection.commit()
             # connection.close()
             avatar = 'static/img_2/profil.png'
-            name = f'   {answer_1}'
+            name = answer_1
             return render_template('personal_account.html', avatar=avatar, name=name)
         except:
             return '<h1>Ошибка</h1>'
