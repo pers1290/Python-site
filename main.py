@@ -62,7 +62,18 @@ def login():
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
-        return render_template('registr.html')
+        try:
+            # connection = sqlite3.connect('db/Reg.db')
+            # cursor = connection.cursor()
+            # cursor.execute('INSERT INTO Reg (name, password, phone, favourites) VALUES (?, ?, ?, ?)',
+            #                (answer_1, answer_3, answer_2, ''))
+            # connection.commit()
+            # connection.close()
+            avatar = 'static/img_2/profil.png'
+            name = f'   {answer_1}'
+            return render_template('personal_account.html', avatar=avatar, name=name)
+        except:
+            return '<h1>Ошибка</h1>'
 
 
 if __name__ == '__main__':

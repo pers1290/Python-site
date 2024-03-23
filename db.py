@@ -8,6 +8,7 @@ id INTEGER PRIMARY KEY,
 name TEXT NOT NULL,
 password TEXT NOT NULL,
 phone TEXT NOT NULL,
+profil_img TEXT NOT NULL,
 favourites TEXT NOT NULL
 )
 ''')
