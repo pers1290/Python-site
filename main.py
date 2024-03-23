@@ -60,9 +60,8 @@ def login():
         return render_template('registr.html')
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
-        answer_2 = request.form.get('surname')
-        answer_3 = request.form.get('email')
-        answer_4 = request.form.get('pasvord')
+        answer_2 = request.form.get('email')
+        answer_3 = request.form.get('pasvord')
         return render_template('registr.html')
 
 
