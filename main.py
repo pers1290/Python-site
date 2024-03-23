@@ -10,9 +10,9 @@ fon = '/static/fon_img/fon_1.jpg'
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     global fon
-    connection = sqlite3.connect('db/User.db')
+    connection = sqlite3.connect('db/Post.db')
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Users WHERE img_id != ""')
+    cursor.execute('SELECT * FROM Post')
     users = cursor.fetchall()
     connection.commit()
     connection.close()
@@ -24,7 +24,7 @@ def tinttye():
     else:
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
-        users.append(('', 'Tinttye', 'bot', '', '', '', '', '/static/img_2/MARS-6.png'))
+        users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
     return render_template('main.html', file_list=users, index_list=index_list, fon=fon)
 
 
