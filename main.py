@@ -48,7 +48,7 @@ def change_fon():
                 fon = '/static/fon_img/fon_2.jpg'
             elif number == 3:
                 fon = '/static/fon_img/fon_3.jpg'
-            return redirect("http://127.0.0.1:7000/tinttye")
+            return redirect("http://127.0.0.1:8000/tinttye")
         except:
             error = 'Ошибка'
             return render_template('change_fon.html', error=error)
@@ -62,11 +62,12 @@ def login():
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
+        avatar = 'static/img_2/profil.png'
         try:
             # connection = sqlite3.connect('db/Reg.db')
             # cursor = connection.cursor()
             # cursor.execute('INSERT INTO Reg (name, password, phone, favourites) VALUES (?, ?, ?, ?)',
-            #                (answer_1, answer_3, answer_2, ''))
+            #                (answer_1, answer_3, answer_2, avatar,''))
             # connection.commit()
             # connection.close()
             avatar = 'static/img_2/profil.png'
@@ -77,4 +78,4 @@ def login():
 
 
 if __name__ == '__main__':
-    app.run(port=7000, host='127.0.0.1')
+    app.run(port=8000, host='127.0.0.1')
