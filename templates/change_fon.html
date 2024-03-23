@@ -1,38 +1,66 @@
+<div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
 {% extends "push.html" %}
 
 {% block content %}
-<div class="slideshow-container" style="margin-left: 0.04%; display: inline-block;">
+
+<h6><br></h6>
+<h6><br></h6>
+<h6><br></h6>
+<form class="form" align="center" style="margin: auto">
+<div class="slideshow-container" style="margin: auto; text-align: center;">
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_1.jpg" width="1200px" height="800px">
+        <img src="/static/fon_img/fon_1.jpg" width=80% height=40%>
         <div class="text"><h5>Фон №1</h5></div>
     </div>
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_2.jpg" width="1200px" height="800px">
+        <img src="/static/fon_img/fon_2.jpg" width=80% height=40%>
         <div class="text"><h5>Фон №2</h5></div>
     </div>
 
     <div class="mySlides fade">
-        <img src="/static/fon_img/fon_3.jpg" width="1200px" height="800px">
+        <img src="/static/fon_img/fon_3.jpg" width=80% height=40%>
         <div class="text"><h5>Фон №3</h5></div>
     </div>
 
-    <a class="prev" onclick="plusSlides(-1)">❮</a>
-    <a class="next" onclick="plusSlides(1)">❯</a>
+
+</div>
+<div style="text-align: left;
+    color: white;">
+<a class="prev" onclick="plusSlides(-1)">❮</a>
+    </div>
+
+    <div style="color: white;"><a class="next" onclick="plusSlides(1)">❯</a></div>
     <div style="text-align:center">
         <span class="dot" onclick="currentSlide(1)"></span>
         <span class="dot" onclick="currentSlide(2)"></span>
         <span class="dot" onclick="currentSlide(3)"></span>
     </div>
-</div>
-<div style="display: inline-block; margin-right: 0,01%; margin-top: 50px;">
-    <form class="login_form" method="post">
-        <input id="firstname" class="input" type="text" name="text" placeholder="Введите номер фона" />
+    <div>
+    <div class="input-container ic2">
+        <input id="email" class="input" type="text" name="email" placeholder=" " required/>
+
+        <label for="email" class="placeholder">Введите номер фона</label>
+    </div>
         <h6>{{ error }}</h6>
         <button class="submit">Применить</button>
-    </form>
+
 </div>
+    </form>
+
 <script>
     var slideIndex = 1;
     showSlides(slideIndex);
@@ -61,4 +89,6 @@
       dots[slideIndex-1].className += " active";
     }
 </script>
+
 {% endblock %}
+    </div>

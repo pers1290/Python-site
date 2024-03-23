@@ -48,7 +48,7 @@ def change_fon():
                 fon = '/static/fon_img/fon_2.jpg'
             elif number == 3:
                 fon = '/static/fon_img/fon_3.jpg'
-            return redirect("http://127.0.0.1:8000/tinttye")
+            return redirect("/tinttye")
         except:
             error = 'Ошибка'
             return render_template('change_fon.html', error=error)
