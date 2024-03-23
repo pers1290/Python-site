@@ -63,13 +63,6 @@ def login():
         answer_2 = request.form.get('surname')
         answer_3 = request.form.get('email')
         answer_4 = request.form.get('pasvord')
-        connection = sqlite3.connect('db/User.db')
-        cursor = connection.cursor()
-        cursor.execute(
-            'INSERT INTO Users (name, surname, phone, password, res1, res2, img_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (answer_1, answer_2, answer_3, answer_4, '', '', ''))
-        connection.commit()
-        connection.close()
         return render_template('registr.html')
 
 
