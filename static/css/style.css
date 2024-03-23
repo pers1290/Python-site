@@ -109,3 +109,26 @@ top: 0;
     stroke-dashoffset: 437;
 }
 
+gif1 {
+cursor: url('./cat.png'), pointer;
+animation: mover7 3s infinite  alternate;
+border-radius: 30px;
+   position: absolute;
+   transform-origin: center;
+}
+.gif2 {
+cursor: url('./cat.png'), pointer;
+animation: mover6 3s infinite  alternate;
+border-radius: 30px;
+   position: absolute;
+   transform-origin: center;
+}
+@keyframes mover6 {
+    0% { transform: translateY(0px) rotate(17deg);}
+    100% { transform: translateY(10px) rotate(13deg);}
+}
+
+@keyframes mover7 {
+    0% { transform: translateY(0px) rotate(17deg);}
+    100% { transform: translateY(-10px) rotate(13deg);}
+}
