@@ -10,9 +10,9 @@ fon = '/static/fon_img/fon_1.jpg'
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     global fon
-    connection = sqlite3.connect('db/Post.db')
+    connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Post')
+    cursor.execute('SELECT * FROM Users')
     users = cursor.fetchall()
     connection.commit()
     connection.close()
