@@ -12,7 +12,7 @@
     <title>Tinttue</title>
 
 </head>
-<body>
+<body style="background-color: #222222">
 <div class="area" >
             <ul class="circles">
                     <li></li>
@@ -44,12 +44,44 @@
 </header>
 <h6><br></h6>
 <h6><br></h6>
+
+
     <form class="form" method="post" style="margin-left: 31%">
-        <div class="subtitle"><h1>Профиль</h1></div>
+<div class="subtitle" style="margin: auto; text-align: center;"><h1>Профиль</h1></div>
         <h6><br></h6>
-        <div class="subtitle"><img src="{{ avatar  }}" style="border-radius: 90px;"><br><h3>{{ name }}</h3></div>
+<div class="subtitle" style="margin: auto; text-align: center;"><img src="{{ avatar  }}" style="border-radius: 90px;"></div>
+        <h3 style="color: white; margin: auto; text-align: center;">{{ name }}</h3>
+        <br>
+
+        <form method="post" enctype="multipart/form-data">
+	<div class="input-file-row" style="margin-left: 41%">
+		<label class="input-file">
+		   	<input type="file" name="file[]" multiple>
+		   	<span>Сменить аватарку</span>
+ 		</label>
+		<div class="input-file-list"></div>
+	</div>
+            <div class="multi-button" style="width: 94%; margin-left: 3%">
+  <button class="multi-button_button">Ваши посты</button>
+  <button class="multi-button_button">Понравившиеся</button>
+</div>
+            <br>
+            <form class="form" method="post" style="margin-left: 31%">
+            <div class="gallery" style="width: 94%; margin-left: 3%">
+                <img src="https://avatars.mds.yandex.net/i?id=df5c282b2da4b4ae1831f9f51f9cde46de98a4ca-5661135-images-thumbs&n=13">
+                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+
+                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+               <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+
+
+            </div>
+            </form>
+</form>
 
 
     </form>
+</div>
 </body>
 </html>
