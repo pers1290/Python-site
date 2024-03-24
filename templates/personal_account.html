@@ -46,21 +46,22 @@
 <h6><br></h6>
 
 
-    <form class="form" method="post" style="margin-left: 31%">
+    <form class="form" method="post" style="margin: auto">
 <div class="subtitle" style="margin: auto; text-align: center;"><h1>Профиль</h1></div>
         <h6><br></h6>
-<div class="subtitle" style="margin: auto; text-align: center;"><img src="{{ avatar  }}" style="border-radius: 90px;"></div>
+        <div class="input-file-row" style="margin-left: 40%">
+		<label class="input-file">
+		   	<input type="file" name="file[]" multiple>
+		   	<img src="{{ avatar  }}" style="border-radius: 90px;">
+ 		</label>
+		<div class="input-file-list"></div>
+	</div>
+
         <h3 style="color: white; margin: auto; text-align: center;">{{ name }}</h3>
         <br>
 
         <form method="post" enctype="multipart/form-data">
-	<div class="input-file-row" style="margin-left: 41%">
-		<label class="input-file">
-		   	<input type="file" name="file[]" multiple>
-		   	<span>Сменить аватарку</span>
- 		</label>
-		<div class="input-file-list"></div>
-	</div>
+
             <div class="multi-button" style="width: 94%; margin-left: 3%">
   <button class="multi-button_button">Ваши посты</button>
   <button class="multi-button_button">Понравившиеся</button>
