@@ -36,18 +36,14 @@ def registration():
 @app.route('/change_fon', methods=['POST', 'GET'])
 def change_fon():
     global fon
+    fon_list = {1: '/static/fon_img/fon_1.jpg', 2: '/static/fon_img/fon_2.jpg', 3: '/static/fon_img/fon_3.jpg'}
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
     elif request.method == 'POST':
         try:
-            number = int(request.form.get('text'))
-            if number == 1:
-                fon = '/static/fon_img/fon_1.jpg'
-            elif number == 2:
-                fon = '/static/fon_img/fon_2.jpg'
-            elif number == 3:
-                fon = '/static/fon_img/fon_3.jpg'
+            number = int(request.form.get('email'))
+            fon = fon_list[number]
             return redirect("/tinttye")
         except:
             error = 'Ошибка'

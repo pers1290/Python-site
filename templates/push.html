@@ -15,88 +15,88 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/style_3.css"/>
     <style>
-    * {box-sizing: border-box}
-    body {font-family: Verdana, sans-serif; margin:0}
-    .mySlides {display: none}
-    img {vertical-align: middle;}
+        * {box-sizing: border-box}
+        body {font-family: Verdana, sans-serif; margin:0}
+        .mySlides {display: none}
+        img {vertical-align: middle;}
 
-    .slideshow-container {
-      max-width: 1200px;
-      position: relative;
-      margin: auto;
-    }
+        .slideshow-container {
+          max-width: 1200px;
+          position: relative;
+          margin: auto;
+        }
 
-    .prev, .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      width: auto;
-      padding: 16px;
-      margin-top: -22px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      transition: 0.6s ease;
-      border-radius: 0 3px 3px 0;
-    }
+        .prev, .next {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          width: auto;
+          padding: 16px;
+          margin-top: -22px;
+          color: white;
+          font-weight: bold;
+          font-size: 18px;
+          transition: 0.6s ease;
+          border-radius: 0 3px 3px 0;
+        }
 
-    .next {
-      right: 0;
-      border-radius: 3px 0 0 3px;
-    }
+        .next {
+          right: 0;
+          border-radius: 3px 0 0 3px;
+        }
 
-    .prev:hover, .next:hover {
-      background-color: rgba(0,0,0,0.8);
-    }
+        .prev:hover, .next:hover {
+          background-color: rgba(0,0,0,0.8);
+        }
 
-    .text {
-      color: #f2f2f2;
-      font-size: 15px;
-      padding: 8px 12px;
-      position: absolute;
-      bottom: 8px;
-      width: 100%;
-      text-align: center;
-    }
+        .text {
+          color: #f2f2f2;
+          font-size: 15px;
+          padding: 8px 12px;
+          position: absolute;
+          bottom: 8px;
+          width: 100%;
+          text-align: center;
+        }
 
 
-    .dot {
-      cursor: pointer;
-      height: 15px;
-      width: 15px;
-      margin: 0 2px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.6s ease;
-    }
+        .dot {
+          cursor: pointer;
+          height: 15px;
+          width: 15px;
+          margin: 0 2px;
+          background-color: #bbb;
+          border-radius: 50%;
+          display: inline-block;
+          transition: background-color 0.6s ease;
+        }
 
-    .active, .dot:hover {
-      background-color: #717171;
-    }
+        .active, .dot:hover {
+          background-color: #717171;
+        }
 
-    .fade {
+        .fade {
 
-      -webkit-animation-duration: 1.5s;
-      animation-name: fade;
-      animation-duration: 100.5s;
-    }
+          -webkit-animation-duration: 1.5s;
+          animation-name: fade;
+          animation-duration: 100.5s;
+        }
 
-    @-webkit-keyframes fade {
-      from {opacity: 1.1}
-      to {opacity: 1}
-    }
+        @-webkit-keyframes fade {
+          from {opacity: 1.1}
+          to {opacity: 1}
+        }
 
-    @keyframes fade {
-      from {opacity: 1.1}
-      to {opacity: 1}
-    }
+        @keyframes fade {
+          from {opacity: 1.1}
+          to {opacity: 1}
+        }
 
-    /* On smaller screens, decrease text size */
-    @media only screen and (max-width: 300px) {
-      .prev, .next,.text {font-size: 11px}
-    }
-</style>
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+          .prev, .next,.text {font-size: 11px}
+        }
+    </style>
     <title>Tinttye</title>
 
 
@@ -105,50 +105,50 @@
 {% set users = file_list %}
 <header style="background-color: #534B62;">
     <img src="/static/img_2/tinttye.png" width="100" height="100"
-                                           style="margin-left: 2%" >
+         style="margin-left: 2%">
 
-<!--<div class="container">-->
-  <a href="/change_fon" class="btn" style="margin-left: 25 px">
-  <svg width="277" height="62">
-    <defs>
-        <linearGradient id="grad1">
-            <stop offset="0%" stop-color="#FF8282"/>
-            <stop offset="100%" stop-color="#E178ED" />
-        </linearGradient>
-    </defs>
-     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
-  </svg>
-    <span>Сменить фон</span>
-</a>
+    <!--<div class="container">-->
+    <a href="/change_fon" class="btn" style="margin-left: 25 px">
+        <svg width="277" height="62">
+            <defs>
+                <linearGradient id="grad1">
+                    <stop offset="0%" stop-color="#FF8282"/>
+                    <stop offset="100%" stop-color="#E178ED"/>
+                </linearGradient>
+            </defs>
+            <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+        </svg>
+        <span>Сменить фон</span>
+    </a>
 
-<a href="https://github.com/pers1290/flask" class="btn" style="margin-left: 40%">
-  <svg width="277" height="62">
-    <defs>
-        <linearGradient id="grad1">
-            <stop offset="0%" stop-color="#FF8282"/>
-            <stop offset="100%" stop-color="#E178ED" />
-        </linearGradient>
-    </defs>
-     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
-  </svg>
-    <span>Мессенджер</span>
-</a>
+    <a href="https://github.com/pers1290/flask" class="btn" style="margin-left: 40%">
+        <svg width="277" height="62">
+            <defs>
+                <linearGradient id="grad1">
+                    <stop offset="0%" stop-color="#FF8282"/>
+                    <stop offset="100%" stop-color="#E178ED"/>
+                </linearGradient>
+            </defs>
+            <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+        </svg>
+        <span>Мессенджер</span>
+    </a>
 
-<a href="https://github.com/pers1290/flask" class="btn" >
-  <svg width="277" height="62">
-    <defs>
-        <linearGradient id="grad1">
-            <stop offset="0%" stop-color="#FF8282"/>
-            <stop offset="100%" stop-color="#E178ED" />
-        </linearGradient>
-    </defs>
-     <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
-  </svg>
-    <span>Добавить пост</span>
-</a>
+    <a href="https://github.com/pers1290/flask" class="btn">
+        <svg width="277" height="62">
+            <defs>
+                <linearGradient id="grad1">
+                    <stop offset="0%" stop-color="#FF8282"/>
+                    <stop offset="100%" stop-color="#E178ED"/>
+                </linearGradient>
+            </defs>
+            <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+        </svg>
+        <span>Добавить пост</span>
+    </a>
     <a href="/registration"><img src="/static/img_2/profil.png" width="50"
-                                                                               height="50"
-                                                                               style="border-radius: 100px; margin-left: 0% ; border: 1;"></a>
+                                 height="50"
+                                 style="border-radius: 100px; margin-left: 0% ; border: 1;"></a>
 
 
 </header>
