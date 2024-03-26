@@ -13,49 +13,51 @@
 
 </head>
 <body style="background-color: #222222">
-<div class="area" >
-            <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul>
-<header style="background-color: #534B62;">
-    <img src="/static/img_2/tinttye.png" width="100" height="100"
-         style="margin-left: 2%">
-    <a href="/tinttye" class="btn" style="margin-left: 64%">
-        <svg width="277" height="62">
-            <defs>
-                <linearGradient id="grad1">
-                    <stop offset="0%" stop-color="#FF8282"/>
-                    <stop offset="100%" stop-color="#E178ED"/>
-                </linearGradient>
-            </defs>
-            <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
-        </svg>
-        <span>Вернуться</span>
-    </a>
-</header>
-<h6><br></h6>
-<h6><br></h6>
+<div class="area">
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <header style="background-color: #534B62;">
+        <img src="/static/img_2/tinttye.png" width="100" height="100"
+             style="margin-left: 2%">
+        <a href="/tinttye" class="btn" style="margin-left: 64%">
+            <svg width="277" height="62">
+                <defs>
+                    <linearGradient id="grad1">
+                        <stop offset="0%" stop-color="#FF8282"/>
+                        <stop offset="100%" stop-color="#E178ED"/>
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+            </svg>
+            <span>Вернуться</span>
+        </a>
+    </header>
+    <h6><br></h6>
+    <h6><br></h6>
 
 
-    <form class="form" method="post" style="margin: auto">
-<div class="subtitle" style="margin: auto; text-align: center;"><h1>Профиль</h1></div>
+    <form class="form" method="post" style="margin: auto" enctype="multipart/form-data">
+        <div class="subtitle" style="margin: auto; text-align: center;"><h1>Профиль</h1></div>
         <h6><br></h6>
-        <div class="input-file-row" style="margin-left: 40%">
-		<label class="input-file">
-		   	<input type="file" name="file[]" multiple>
-		   	<img src="{{ avatar  }}" style="border-radius: 90px;">
- 		</label>
-		<div class="input-file-list"></div>
-	</div>
+        <div class="input-file-row" style="margin-left: 40%; display: inline-block;">
+            <label class="input-file">
+                <input type="file" name="file" multiple>
+                <img src="{{ avatar  }}" style="border-radius: 90px;" width="100px" height="100px">
+                <br>
+                <button type="submit"><img src="/static/img_2/g_2.png" width="20px" height="20px"></button>
+            </label>
+            <div class="input-file-list"></div>
+        </div>
 
         <h3 style="color: white; margin: auto; text-align: center;">{{ name }}</h3>
         <br>
@@ -63,23 +65,23 @@
         <form method="post" enctype="multipart/form-data">
 
             <div class="multi-button" style="width: 94%; margin-left: 3%">
-  <button class="multi-button_button">Ваши посты</button>
-  <button class="multi-button_button">Понравившиеся</button>
-</div>
+                <button class="multi-button_button">Ваши посты</button>
+                <button class="multi-button_button">Понравившиеся</button>
+            </div>
             <br>
             <form class="form" method="post" style="margin-left: 31%">
-            <div class="gallery" style="width: 94%; margin-left: 3%">
-                <img src="https://avatars.mds.yandex.net/i?id=df5c282b2da4b4ae1831f9f51f9cde46de98a4ca-5661135-images-thumbs&n=13">
-                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
-                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+                <div class="gallery" style="width: 94%; margin-left: 3%">
+                    <img src="https://avatars.mds.yandex.net/i?id=df5c282b2da4b4ae1831f9f51f9cde46de98a4ca-5661135-images-thumbs&n=13">
+                    <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+                    <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
 
-                <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
-               <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+                    <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjyg-yLave5tctVyP5IJSVDdlCQgR-ct2u63AdrrFwsraG33nt4OGRmPwnf--1hhmdv-tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
+                    <img src="https://yastatic.net/naydex/yandex-search/SCj86qD14/32ee9awB/hMCdjXO726QD7KkeH7QJ7ZThGMQoRxZDuubjygqCDY47s6K9Z_aZ4AG1LSmCckHeMuirzmBt65R18lN2mhltYBTx7fk3f--19nmtT9tgyZ0EoOx1_McSMn_GUru_gszuDiNnvUGATmcWk5qvJYVTedMYjhtwGVoQcfTFE">
 
 
-            </div>
+                </div>
             </form>
-</form>
+        </form>
 
 
     </form>
