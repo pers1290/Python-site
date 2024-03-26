@@ -4,6 +4,9 @@ import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+UPLOAD_FOLDER = 'static/img2/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 fon = '/static/fon_img/fon_1.jpg'
 
 
@@ -71,6 +74,12 @@ def login():
             return render_template('personal_account.html', avatar=avatar, name=name)
         except:
             return '<h1>Ошибка</h1>'
+
+
+@app.route('/personal_account', methods=['POST', 'GET'])
+def personal_account():
+    if request.method == 'GET':
+        return render_template('personal_account.html')
 
 
 if __name__ == '__main__':
