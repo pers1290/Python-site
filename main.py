@@ -42,7 +42,25 @@ def tinttye():
 
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    return render_template('registration.html')
+    global name
+    global avatar
+    global fon
+    if request.method == 'GET':
+        return render_template('registration.html')
+    elif request.method == 'POST':
+        answer_1 = request.form.get('firstname')
+        answer_2 = request.form.get('email')
+        answer_3 = request.form.get('pasvord')
+        connection = sqlite3.connect('db/Reg.db')
+        cursor = connection.cursor()
+        cursor.execute('SELECT name, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
+        user = cursor.fetchall()
+        avatar = user[0][1]
+        fon = user[0][2]
+        connection.commit()
+        connection.close()
+        name = answer_1
+        return redirect("/personal_account")
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -65,23 +83,23 @@ def change_fon():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     global name
+    global avatar
+    global fon
     if request.method == 'GET':
         return render_template('registr.html')
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
-        try:
-            # connection = sqlite3.connect('db/Reg.db')
-            # cursor = connection.cursor()
-            # cursor.execute('INSERT INTO Reg (name, password, phone, favourites) VALUES (?, ?, ?, ?)',
-            #                (answer_1, answer_3, answer_2, avatar,''))
-            # connection.commit()
-            # connection.close()
-            name = answer_1
-            return redirect("/personal_account")
-        except:
-            return '<h1>Ошибка</h1>'
+        connection = sqlite3.connect('db/Reg.db')
+        cursor = connection.cursor()
+        cursor.execute(
+            'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
+            (answer_1, answer_3, answer_2, avatar, fon, ''))
+        connection.commit()
+        connection.close()
+        name = answer_1
+        return redirect("/personal_account")
 
 
 @app.route('/personal_account', methods=['POST', 'GET'])
