@@ -22,6 +22,7 @@ def allowed_file(filename):
 def tinttye():
     global fon
     global avatar
+    global name
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
@@ -37,7 +38,7 @@ def tinttye():
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
         users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
-    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar)
+    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
