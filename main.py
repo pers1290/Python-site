@@ -46,8 +46,13 @@ def registration():
     global name
     global avatar
     global fon
+    error_1 = ''
+    error_2 = ''
+    error_3 = ''
+    system_error = ''
     if request.method == 'GET':
-        return render_template('registration.html')
+        return render_template('registration.html', error_1=error_1, error_2=error_2, error_3=error_3,
+                               system_error=system_error)
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
@@ -86,14 +91,37 @@ def login():
     global name
     global avatar
     global fon
+    error_1 = ''
+    error_2 = ''
+    error_3 = ''
+    error_4 = ''
+    system_error = ''
     if request.method == 'GET':
-        return render_template('registr.html')
+        return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
+                               system_error=system_error)
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
+        answer_4 = request.form.get('pasvord2')
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
+        if answer_4 != answer_3:
+            error_2 = 'Пароли не совпадают'
+            error_3 = 'Пароли не совпадают'
+        cursor.execute('SELECT name FROM Reg')
+        name_user = cursor.fetchall()
+        if answer_1 in name_user[0]:
+            cursor.execute('SELECT password FROM Reg WHERE name = ?', (answer_1,))
+            name_user = cursor.fetchall()
+            if name_user[0][0] == answer_3:
+                system_error = 'Вы уже зарегистрированы в системе'
+            else:
+                error_1 = 'Такой никнейм есть, придумайте новый'
+        if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
+            return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3,
+                                   error_4=error_4,
+                                   system_error=system_error)
         cursor.execute(
             'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
             (answer_1, answer_3, answer_2, avatar, fon, ''))
