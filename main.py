@@ -56,6 +56,7 @@ def registration():
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
+        answer_1 = answer_1.title()
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
         try:
@@ -113,6 +114,7 @@ def login():
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
         answer_4 = request.form.get('pasvord2')
+        answer_1 = answer_1.title()
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
