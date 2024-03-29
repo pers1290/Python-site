@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 fon = '/static/fon_img/fon_1.jpg'
 avatar = 'static/img_2/profil.png'
@@ -50,8 +51,11 @@ def registration():
     error_2 = ''
     system_error = ''
     if request.method == 'GET':
-        return render_template('registration.html', error_1=error_1, error_2=error_2,
-                               system_error=system_error)
+        if name == '':
+            return render_template('registration.html', error_1=error_1, error_2=error_2,
+                                   system_error=system_error)
+        else:
+            return redirect("/personal_account")
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
@@ -82,18 +86,25 @@ def registration():
 @app.route('/change_fon', methods=['POST', 'GET'])
 def change_fon():
     global fon
-    fon_list = {1: '/static/fon_img/fon_1.jpg', 2: '/static/fon_img/fon_2.jpg', 3: '/static/fon_img/fon_3.jpg'}
+    global FON_LIST
+    global name
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
     elif request.method == 'POST':
-        try:
-            number = int(request.form.get('email'))
-            fon = fon_list[number]
-            return redirect("/tinttye")
-        except:
-            error = 'Ошибка'
+        number = request.form.get('email')
+        if number not in ('1', '2', '3'):
+            error = 'Может быть 1, 2 или 3'
             return render_template('change_fon.html', error=error)
+        number = request.form.get('email')
+        fon = FON_LIST[number]
+        if name != '':
+            connection = sqlite3.connect('db/Reg.db')
+            cursor = connection.cursor()
+            cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (fon, name))
+            connection.commit()
+            connection.close()
+        return redirect("/tinttye")
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -158,6 +169,12 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             avatar = f'/static/avatar/{filename}'
+            print(avatar)
+            connection = sqlite3.connect('db/Reg.db')
+            cursor = connection.cursor()
+            cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
+            connection.commit()
+            connection.close()
             return render_template('personal_account.html', avatar=avatar, name=name)
     return render_template('personal_account.html', avatar=avatar, name=name)
 
