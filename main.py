@@ -118,6 +118,7 @@ def login():
                 system_error = 'Вы уже зарегистрированы в системе'
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
+        print((error_1, error_2, error_3, error_4, system_error))
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3,
                                    error_4=error_4,
