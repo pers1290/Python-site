@@ -48,10 +48,9 @@ def registration():
     global fon
     error_1 = ''
     error_2 = ''
-    error_3 = ''
     system_error = ''
     if request.method == 'GET':
-        return render_template('registration.html', error_1=error_1, error_2=error_2, error_3=error_3,
+        return render_template('registration.html', error_1=error_1, error_2=error_2,
                                system_error=system_error)
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
@@ -59,14 +58,24 @@ def registration():
         answer_3 = request.form.get('pasvord')
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
-        cursor.execute('SELECT name, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
-        user = cursor.fetchall()
-        avatar = user[0][1]
-        fon = user[0][2]
-        connection.commit()
-        connection.close()
-        name = answer_1
-        return redirect("/personal_account")
+        try:
+            cursor.execute('SELECT name, password, phone, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
+            users = cursor.fetchall()
+            user = users[0]
+            if user[1] != answer_3:
+                error_2 = 'Неверный пароль'
+                return render_template('registration.html', error_1=error_1, error_2=error_2,
+                                       system_error=system_error)
+            avatar = user[3]
+            fon = user[4]
+            connection.commit()
+            connection.close()
+            name = answer_1
+            return redirect("/personal_account")
+        except:
+            system_error = 'Вас не в системе, зарегистрируйтесь'
+            return render_template('registration.html', error_1=error_1, error_2=error_2,
+                                   system_error=system_error)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -111,14 +120,13 @@ def login():
             error_3 = 'Пароли не совпадают'
         cursor.execute('SELECT name FROM Reg')
         name_user = cursor.fetchall()
-        if answer_1 in name_user[0]:
+        if len(name_user) > 0 and answer_1 in name_user[0]:
             cursor.execute('SELECT password FROM Reg WHERE name = ?', (answer_1,))
             name_user = cursor.fetchall()
             if name_user[0][0] == answer_3:
                 system_error = 'Вы уже зарегистрированы в системе'
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
-        print((error_1, error_2, error_3, error_4, system_error))
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3,
                                    error_4=error_4,
