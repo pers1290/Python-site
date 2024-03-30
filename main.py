@@ -49,11 +49,12 @@ def registration():
     global fon
     error_1 = ''
     error_2 = ''
+    value_1, value_2, value_3 = '', '', ''
     system_error = ''
     if request.method == 'GET':
         if name == '':
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
         else:
             return redirect("/personal_account")
     elif request.method == 'POST':
@@ -61,6 +62,7 @@ def registration():
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
         answer_1 = answer_1.title()
+        value_1, value_2, value_3 = answer_1, answer_3, answer_2
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
         try:
@@ -70,7 +72,7 @@ def registration():
             if user[1] != answer_3:
                 error_2 = 'Неверный пароль'
                 return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                       system_error=system_error)
+                                       system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
             avatar = user[3]
             fon = user[4]
             connection.commit()
@@ -80,7 +82,7 @@ def registration():
         except:
             system_error = 'Вас не в системе, зарегистрируйтесь'
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -112,20 +114,20 @@ def login():
     global name
     global avatar
     global fon
-    error_1 = ''
-    error_2 = ''
-    error_3 = ''
-    error_4 = ''
+    error_1, error_2, error_3, error_4 = '', '', '', ''
+    value_1, value_2, value_3, value_4 = '', '', '', ''
     system_error = ''
     if request.method == 'GET':
         return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
-                               system_error=system_error)
+                               system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                               value_4=value_4)
     elif request.method == 'POST':
         answer_1 = request.form.get('firstname')
         answer_2 = request.form.get('email')
         answer_3 = request.form.get('pasvord')
         answer_4 = request.form.get('pasvord2')
         answer_1 = answer_1.title()
+        value_1, value_2, value_3, value_4 = answer_1, answer_3, answer_4, answer_2
         connection = sqlite3.connect('db/Reg.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
@@ -141,9 +143,9 @@ def login():
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
-            return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3,
-                                   error_4=error_4,
-                                   system_error=system_error)
+            return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   value_4=value_4)
         cursor.execute(
             'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
             (answer_1, answer_3, answer_2, avatar, fon, ''))
