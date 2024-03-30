@@ -1,5 +1,5 @@
 import os
-from flask import Flask, flash, request, redirect, render_template
+from flask import Flask, request, redirect, render_template
 from werkzeug.utils import secure_filename
 import sqlite3
 
@@ -161,11 +161,9 @@ def personal_account():
     global avatar
     if request.method == 'POST':
         if 'file' not in request.files:
-            flash('ERROR')
             return redirect(request.url)
         file = request.files['file']
         if file.filename == '':
-            flash('ERROR')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
