@@ -171,7 +171,6 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             avatar = f'/static/avatar/{filename}'
-            print(avatar)
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
