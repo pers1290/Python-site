@@ -178,5 +178,11 @@ def personal_account():
     return render_template('personal_account.html', avatar=avatar, name=name)
 
 
+@app.route('/messenger', methods=['POST', 'GET'])
+def messenger():
+    if request.method == 'GET':
+        return render_template('messenger.html')
+
+
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1')
