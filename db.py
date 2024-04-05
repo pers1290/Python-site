@@ -13,6 +13,16 @@ fon_img TEXT NOT NULL,
 favourites TEXT NOT NULL
 )
 ''')
+connection = sqlite3.connect('db/Messanger.db')
+cursor = connection.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Reg (
+id INTEGER PRIMARY KEY,
+name TEXT NOT NULL,
+friends TEXT NOT NULL,
+messages TEXT NOT NULL,
+)
+''')
 # cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
 # ('Andy', 'комната', '', '/static/img/m1.jpg'))
 # cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',

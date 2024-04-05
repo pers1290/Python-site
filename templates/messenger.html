@@ -271,7 +271,7 @@ main footer a{
             </div>
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
         </header>
-        <ul id="chat">
+        <ul id="chat" style="float: ">
 
 		</ul>
         <footer>
@@ -293,12 +293,11 @@ main footer a{
             const br1 = document.createElement('br');
             const br2 = document.createElement('br');
             li.textContent = msg;
-            li.style.backgroundColor = 'red'
-            li.style.borderRadius = '10px'
+            li.style.backgroundColor = "red"
+            li.style.borderRadius = "10px"
             li.style.textAlign = "right"
             li.style.display = "inline-block"
-            li.style.backgroundPosition = "right"
-
+            li.style.marginLeft = "150px"
             messages.appendChild(li);
             messages.appendChild(br1);
             messages.appendChild(br2);
