@@ -240,36 +240,6 @@ main footer a{
         </header>
         <ul>
             <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status orange"></span>
-                        offline
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_03.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status orange"></span>
-                        offline
-                    </h3>
-                </div>
-            </li>
-            <li>
                 <img src="/static/img_2/profil.png" alt="">
                 <div>
                     <h2>Prénom Nom</h2>
@@ -289,56 +259,7 @@ main footer a{
                     </h3>
                 </div>
             </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_06.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_07.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_08.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_09.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>
-            </li>
-            <li>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_10.jpg" alt="">
-                <div>
-                    <h2>Prénom Nom</h2>
-                    <h3>
-                        <span class="status orange"></span>
-                        offline
-                    </h3>
-                </div>
-            </li>
+
         </ul>
     </aside>
     <main>
@@ -351,80 +272,43 @@ main footer a{
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
         </header>
         <ul id="chat">
-            <li class="you">
-                <div class="entete">
-                    <span class="status green"></span>
-                    <h2>Vincent</h2>
-                    <h3>10:12AM, Today</h3>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                </div>
-            </li>
-            <li class="me">
-                <div class="entete">
-                    <h3>10:12AM, Today</h3>
-                    <h2>Vincent</h2>
-                    <span class="status blue"></span>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                </div>
-            </li>
-            <li class="me">
-                <div class="entete">
-                    <h3>10:12AM, Today</h3>
-                    <h2>Vincent</h2>
-                    <span class="status blue"></span>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    OK
-                </div>
-            </li>
-            <li class="you">
-                <div class="entete">
-                    <span class="status green"></span>
-                    <h2>Vincent</h2>
-                    <h3>10:12AM, Today</h3>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                </div>
-            </li>
-            <li class="me">
-                <div class="entete">
-                    <h3>10:12AM, Today</h3>
-                    <h2>Vincent</h2>
-                    <span class="status blue"></span>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                </div>
-            </li>
-            <li class="me">
-                <div class="entete">
-                    <h3>10:12AM, Today</h3>
-                    <h2>Vincent</h2>
-                    <span class="status blue"></span>
-                </div>
-                <div class="triangle"></div>
-                <div class="message">
-                    OK
-                </div>
-            </li>
-        </ul>
+
+		</ul>
         <footer>
-            <textarea placeholder="Type your message"></textarea>
+            <textarea placeholder="Type your message" id="msg"></textarea>
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png" alt="">
-            <a href="#">Send</a>
+            <button onclick="sendMsg()">Отправить</button>
         </footer>
     </main>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+        const msgInput = document.getElementById('msg');
+        const messages = document.getElementById('chat');
+
+        socket.on('message', function(msg){
+            const li = document.createElement('li');
+            const br1 = document.createElement('br');
+            const br2 = document.createElement('br');
+            li.textContent = msg;
+            li.style.backgroundColor = 'red'
+            li.style.borderRadius = '10px'
+            li.style.textAlign = "right"
+            li.style.display = "inline-block"
+            li.style.backgroundPosition = "right"
+
+            messages.appendChild(li);
+            messages.appendChild(br1);
+            messages.appendChild(br2);
+        });
+
+        function sendMsg(){
+            const msg = msgInput.value;
+            socket.emit('message', msg);
+            msgInput.value = '';
+        }
+    </script>
 </body>
 </html>

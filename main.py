@@ -1,12 +1,15 @@
 import os
 from flask import Flask, request, redirect, render_template
 from werkzeug.utils import secure_filename
+from flask_socketio import SocketIO, send
 import sqlite3
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 fon = '/static/fon_img/fon_1.jpg'
@@ -17,6 +20,11 @@ name = ''
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/')
+def index():
+    return redirect("/tinttye")
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -184,5 +192,10 @@ def messenger():
         return render_template('messenger.html')
 
 
+@socketio.on('message')
+def handleMessage(msg):
+    send(msg[:20], broadcast=True)
+
+
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1')
+    socketio.run(app, allow_unsafe_werkzeug=True)
