@@ -203,6 +203,7 @@ def handleMessage(msg):
     user = json.loads(user)
     user.append((name, msg))
     d = json.dumps(user, ensure_ascii=False)
+    print(d)
     cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
     connection.commit()
     connection.close()
