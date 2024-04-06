@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask_socketio import SocketIO, send
 import sqlite3
 import json
+import asyncio
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
@@ -29,6 +30,7 @@ def index():
 
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
+    global fon
     name = ''
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
@@ -38,8 +40,11 @@ def tinttye():
     connection.close()
     len_db = len(users)
     index_list = []
+    session.permanent = True
     if 'name' in session:
         name = session['name']
+    if 'fon' in session:
+        fon = session['fon']
     if len_db % 2 == 0:
         for i in range(0, len_db, 2):
             index_list.append(i)
@@ -52,7 +57,6 @@ def tinttye():
 
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    global name
     global avatar
     global fon
     error_1 = ''
@@ -96,9 +100,11 @@ def registration():
 
 @app.route('/change_fon', methods=['POST', 'GET'])
 def change_fon():
-    global fon
     global FON_LIST
+    session.permanent = True
     name = ''
+    if 'name' in session['name']:
+        name = session['name']
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
@@ -108,11 +114,11 @@ def change_fon():
             error = 'Может быть 1, 2 или 3'
             return render_template('change_fon.html', error=error)
         number = request.form.get('email')
-        fon = FON_LIST[number]
+        session['fon'] = FON_LIST[number]
         if name != '':
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
-            cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (fon, name))
+            cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], name))
             connection.commit()
             connection.close()
         return redirect("/tinttye")
@@ -120,8 +126,11 @@ def change_fon():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    session.permanent = True
     global avatar
     global fon
+    session['avatar'] = avatar
+    session['fon'] = fon
     error_1, error_2, error_3, error_4 = '', '', '', ''
     value_1, value_2, value_3, value_4 = '', '', '', ''
     system_error = ''
@@ -156,18 +165,18 @@ def login():
                                    value_4=value_4)
         cursor.execute(
             'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
-            (answer_1, answer_3, answer_2, avatar, fon, ''))
+            (answer_1, answer_3, answer_2, session['avatar'], session['fon'], ''))
         connection.commit()
         connection.close()
-        session.permanent = True
         session['name'] = answer_1
         return redirect("/personal_account")
 
 
 @app.route('/personal_account', methods=['POST', 'GET'])
 def personal_account():
+    session.permanent = True
     name = session['name']
-    global avatar
+    avatar = session['avatar']
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -177,7 +186,8 @@ def personal_account():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            avatar = f'/static/avatar/{filename}'
+            session['avatar'] = f'/static/avatar/{filename}'
+            avatar = session[avatar]
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
