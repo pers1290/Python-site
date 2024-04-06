@@ -194,6 +194,14 @@ def messenger():
 
 @socketio.on('message')
 def handleMessage(msg):
+    global name
+    connection = sqlite3.connect('db/Messanger.db')
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Reg')
+    # cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (fon, name))
+    connection.commit()
+    connection.close()
+
     send(msg[:20], broadcast=True)
 
 
