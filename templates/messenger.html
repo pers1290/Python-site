@@ -233,6 +233,7 @@ main footer a{
     </style>
 </head>
 <body>
+{% set a = name %}
 <div id="container">
     <aside>
         <header>
@@ -271,9 +272,19 @@ main footer a{
             </div>
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
         </header>
-        <ul id="chat" style="float: ">
-
-		</ul>
+        <ul id="chat">
+            {% for i in user_1 %}
+            {% if i[0] == name %}
+            <li style="background-color: red; border-radius: 10px; text-align: right; display: inline-block; margin-left: 150px; margin-top: 1em; float: right;">
+                {{ i[1] }}
+            </li>
+            {% else %}
+            <li style="background-color: green; border-radius: 10px; text-align: left; margin-top: 1em; display: list-item;">
+                {{ i[1] }}
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
         <footer>
             <textarea placeholder="Type your message" id="msg"></textarea>
             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
@@ -283,31 +294,29 @@ main footer a{
     </main>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
-    <script>
-        const socket = io();
-        const msgInput = document.getElementById('msg');
-        const messages = document.getElementById('chat');
+<script>
+    const socket = io();
+    const msgInput = document.getElementById('msg');
+    const messages = document.getElementById('chat');
 
-        socket.on('message', function(msg){
-            const li = document.createElement('li');
-            const br1 = document.createElement('br');
-            const br2 = document.createElement('br');
-            li.textContent = msg;
-            li.style.backgroundColor = "red"
-            li.style.borderRadius = "10px"
-            li.style.textAlign = "right"
-            li.style.display = "inline-block"
-            li.style.marginLeft = "150px"
-            messages.appendChild(li);
-            messages.appendChild(br1);
-            messages.appendChild(br2);
-        });
+    socket.on('message', function(msg){
+        const li = document.createElement('li');
+        li.textContent = msg;
+        li.style.backgroundColor = "red"
+        li.style.borderRadius = "10px"
+        li.style.textAlign = "right"
+        li.style.display = "inline-block"
+        li.style.marginLeft = "150px"
+        li.style.marginTop = "1em"
+        li.style.float = "right"
+        messages.appendChild(li);
+    });
 
-        function sendMsg(){
-            const msg = msgInput.value;
-            socket.emit('message', msg);
-            msgInput.value = '';
-        }
-    </script>
+    function sendMsg(){
+        const msg = msgInput.value;
+        socket.emit('message', msg);
+        msgInput.value = '';
+    }
+</script>
 </body>
 </html>

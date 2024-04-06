@@ -1,12 +1,12 @@
 import os
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session
 from werkzeug.utils import secure_filename
 from flask_socketio import SocketIO, send
 import sqlite3
 import json
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
 socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -15,7 +15,6 @@ FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 fon = '/static/fon_img/fon_1.jpg'
 avatar = 'static/img_2/profil.png'
-name = ''
 
 
 def allowed_file(filename):
@@ -30,9 +29,7 @@ def index():
 
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
-    global fon
-    global avatar
-    global name
+    name = ''
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
@@ -41,6 +38,8 @@ def tinttye():
     connection.close()
     len_db = len(users)
     index_list = []
+    if 'name' in session:
+        name = session['name']
     if len_db % 2 == 0:
         for i in range(0, len_db, 2):
             index_list.append(i)
@@ -61,7 +60,7 @@ def registration():
     value_1, value_2, value_3 = '', '', ''
     system_error = ''
     if request.method == 'GET':
-        if name == '':
+        if 'name' not in session:
             return render_template('registration.html', error_1=error_1, error_2=error_2,
                                    system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
         else:
@@ -86,7 +85,8 @@ def registration():
             fon = user[4]
             connection.commit()
             connection.close()
-            name = answer_1
+            session.permanent = True
+            session['name'] = answer_1
             return redirect("/personal_account")
         except:
             system_error = 'Вас не в системе, зарегистрируйтесь'
@@ -98,7 +98,7 @@ def registration():
 def change_fon():
     global fon
     global FON_LIST
-    global name
+    name = ''
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
@@ -120,7 +120,6 @@ def change_fon():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    global name
     global avatar
     global fon
     error_1, error_2, error_3, error_4 = '', '', '', ''
@@ -160,13 +159,14 @@ def login():
             (answer_1, answer_3, answer_2, avatar, fon, ''))
         connection.commit()
         connection.close()
-        name = answer_1
+        session.permanent = True
+        session['name'] = answer_1
         return redirect("/personal_account")
 
 
 @app.route('/personal_account', methods=['POST', 'GET'])
 def personal_account():
-    global name
+    name = session['name']
     global avatar
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -189,23 +189,36 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
+    session.permanent = True
+    name = session['name']
     if request.method == 'GET':
-        return render_template('messenger.html')
+        connection = sqlite3.connect('db/Messanger.db')
+        cursor = connection.cursor()
+        user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+        user_1 = user_1[0][0]
+        user_1 = json.loads(user_1)
+        print(user_1)
+        return render_template('messenger.html', user_1=user_1, name=name)
 
 
 @socketio.on('message')
 def handleMessage(msg):
-    global name
+    session.permanent = True
+    name = session['name']
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
-    user = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
-    print(user)
-    user = user[0]
-    user = json.loads(user)
-    user.append((name, msg))
-    d = json.dumps(user, ensure_ascii=False)
+    user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+    user_1 = user_1[0][0]
+    user_1 = json.loads(user_1)
+    user_1.append((name, msg))
+    d = json.dumps(user_1, ensure_ascii=False)
     print(d)
-    cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
+    if name == 'Василий':
+        cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
+        cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, 'Хомяк'))
+    else:
+        cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
+        cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, 'Василий'))
     connection.commit()
     connection.close()
 
