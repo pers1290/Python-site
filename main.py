@@ -199,6 +199,7 @@ def handleMessage(msg):
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
     user = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+    print(user)
     user = user[0]
     user = json.loads(user)
     user.append((name, msg))
