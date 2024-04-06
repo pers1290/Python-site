@@ -3,6 +3,7 @@ from flask import Flask, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from flask_socketio import SocketIO, send
 import sqlite3
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -197,8 +198,12 @@ def handleMessage(msg):
     global name
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Reg')
-    # cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (fon, name))
+    user = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+    user = user[0]
+    user = json.loads(user)
+    user.append((name, msg))
+    d = json.dumps(user, ensure_ascii=False)
+    cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
     connection.commit()
     connection.close()
 

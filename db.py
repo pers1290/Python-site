@@ -23,10 +23,10 @@ friends TEXT NOT NULL,
 messages TEXT NOT NULL
 )
 ''')
-# cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-#                ('Василий', 'Хомяк', ''))
-# cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-#                ('Хомяк', 'Василий', ''))
+cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+               ('Василий', 'Хомяк', '[]'))
+cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+               ('Хомяк', 'Василий', '[]'))
 # cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
 # ('Mark', 'комната', '', '/static/img/m3.jpg'))
 connection.commit()
