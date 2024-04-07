@@ -76,19 +76,19 @@
     <div class="title">Вход</div>
     <div class="subtitle">Мы рады вас снова видеть!</div>
     <div class="input-container ic1">
-        <input id="firstname" class="input" type="text" placeholder=" " name="firstname" required/>
+        <input id="firstname" class="input" type="text" placeholder=" " name="firstname" value="{{ value_1 }}" required/>
 
         <label for="firstname" class="placeholder">Никнейм</label>
     </div>
     <h6 style="color: red;">{{ error_1 }}</h6>
     <div class="input-container ic2">
-        <input id="pasvord" class="input" type="text" placeholder=" " name="pasvord" required/>
+        <input id="pasvord" class="input" type="text" placeholder=" " name="pasvord" value="{{ value_2 }}" required/>
 
         <label for="pasvord" class="placeholder">Пароль</label>
     </div>
     <h6 style="color: red;">{{ error_2 }}</h6>
     <div class="input-container ic2">
-        <input id="email" class="input" type="text" placeholder=" " name="email" required/>
+        <input id="email" class="input" type="text" placeholder=" " name="email" value="{{ value_3 }}" required/>
 
         <label for="email" class="placeholder">Номер телефона</label>
     </div>

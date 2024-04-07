@@ -9,6 +9,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/style_3.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <title>Tinttue</title>
 
 </head>
@@ -77,23 +78,23 @@
         <div class="title">Регистрация</div>
         <div class="subtitle">Мы рады с вами познакомиться!</div>
         <div class="input-container ic1">
-            <input id="firstname" class="input" type="text" name="firstname" placeholder=" " required/>
+            <input id="firstname" class="input" type="text" name="firstname" placeholder=" " value="{{ value_1 }}" required/>
 
             <label for="firstname" class="placeholder">Никнейм</label>
         </div>
         <h6 style="color: red;">{{ error_1 }}</h6>
         <div class="input-container ic2">
-            <input id="pasvord" class="input" type="text" name="pasvord" placeholder=" " required/>
+            <input id="pasvord" class="input" type="text" name="pasvord" placeholder=" " value="{{ value_2 }}" required/>
             <label for="pasvord" class="placeholder">Пароль</label>
         </div>
         <h6 style="color: red;">{{ error_2 }}</h6>
         <div class="input-container ic2">
-            <input id="pasvord2" class="input" type="text" name="pasvord2" placeholder=" " required/>
+            <input id="pasvord2" class="input" type="text" name="pasvord2" placeholder=" " value="{{ value_3 }}" required/>
             <label for="pasvord2" class="placeholder">Повторите пароль</label>
         </div>
         <h6 style="color: red;">{{ error_3 }}</h6>
         <div class="input-container ic2">
-            <input id="email" class="input" type="text" name="email" placeholder=" " required/>
+            <input id="email" class="input" type="text" name="email" placeholder=" " value="{{ value_4 }}" required/>
 
             <label for="email" class="placeholder">Номер телефона</label>
         </div>
@@ -111,16 +112,14 @@
     </form>
 </div>
 <script>
-    box = document.querySelector('#box');
-    btn = document.querySelector('.btn');
-    btn.setAttribute('disabled', true);
-    box.oninput = function(){
-        if (box.checked) {
-            btn.removeAttribute('disabled');
-        }else{
-            btn.setAttribute('disabled', true);
-        }
-
+    document.getElementById('check').addEventListener("click", displaySubmit);
+    let check_1 = document.getElementById('check');
+    let submit_button = document.getElementById('btn');
+    submit_button.setAttribute('disabled', true);
+    function displaySubmit(){
+    if (check_1.checked){
+         submit_button.removeAttribute('disabled');
+    } else {submit_button.setAttribute('disabled', true);}
     }
 </script>
 </body>

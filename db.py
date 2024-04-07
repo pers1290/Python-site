@@ -13,11 +13,24 @@ fon_img TEXT NOT NULL,
 favourites TEXT NOT NULL
 )
 ''')
-# cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
-# ('Andy', 'комната', '', '/static/img/m1.jpg'))
-# cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
-# ('Bill', 'комната', '', '/static/img/m2.jpg'))
+connection = sqlite3.connect('db/Messanger.db')
+cursor = connection.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Reg (
+id INTEGER PRIMARY KEY,
+name TEXT NOT NULL,
+friends TEXT NOT NULL,
+messages TEXT NOT NULL
+)
+''')
+# cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+#                ('Василий', 'Хомяк', '[]'))
+# cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+#                ('Хомяк', 'Василий', '[]'))
 # cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
 # ('Mark', 'комната', '', '/static/img/m3.jpg'))
+# cursor.execute(
+#     'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
+#     ('Василий', '123', answer_2, session['avatar'], session['fon'], ''))
 connection.commit()
 connection.close()
