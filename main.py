@@ -27,6 +27,12 @@ def index():
     return redirect("/tinttye")
 
 
+@app.route('/exit')
+def exit():
+    session.clear()
+    return redirect("/tinttye")
+
+
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     fon = '/static/fon_img/fon_1.jpg'
@@ -102,9 +108,6 @@ def registration():
 def change_fon():
     global FON_LIST
     session.permanent = True
-    name = ''
-    if 'name' in session['name']:
-        name = session['name']
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
@@ -114,12 +117,11 @@ def change_fon():
             error = 'Может быть 1, 2 или 3'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        if name != '':
-            connection = sqlite3.connect('db/Reg.db')
-            cursor = connection.cursor()
-            cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], name))
-            connection.commit()
-            connection.close()
+        connection = sqlite3.connect('db/Reg.db')
+        cursor = connection.cursor()
+        cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
+        connection.commit()
+        connection.close()
         return redirect("/tinttye")
 
 
@@ -206,7 +208,6 @@ def messenger():
         user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
         user_1 = user_1[0][0]
         user_1 = json.loads(user_1)
-        print(user_1)
         return render_template('messenger.html', user_1=user_1, name=name)
 
 
@@ -221,7 +222,6 @@ def handleMessage(msg):
     user_1 = json.loads(user_1)
     user_1.append((name, msg))
     d = json.dumps(user_1, ensure_ascii=False)
-    print(d)
     if name == 'Василий':
         cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
         cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, 'Хомяк'))
