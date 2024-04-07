@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, redirect, render_template, session
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send
 import sqlite3
 import json
@@ -14,8 +15,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-fon = '/static/fon_img/fon_1.jpg'
-avatar = 'static/img_2/profil.png'
 
 
 def allowed_file(filename):
@@ -30,7 +29,7 @@ def index():
 
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
-    global fon
+    fon = '/static/fon_img/fon_1.jpg'
     name = ''
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
@@ -57,8 +56,6 @@ def tinttye():
 
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
-    global avatar
-    global fon
     error_1 = ''
     error_2 = ''
     value_1, value_2, value_3 = '', '', ''
@@ -81,15 +78,15 @@ def registration():
             cursor.execute('SELECT name, password, phone, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
             users = cursor.fetchall()
             user = users[0]
-            if user[1] != answer_3:
+            if check_password_hash(user[1], answer_3) is False:
                 error_2 = 'Неверный пароль'
                 return render_template('registration.html', error_1=error_1, error_2=error_2,
                                        system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
-            avatar = user[3]
-            fon = user[4]
+            session.permanent = True
+            session['avatar'] = user[3]
+            session['fon'] = user[4]
             connection.commit()
             connection.close()
-            session.permanent = True
             session['name'] = answer_1
             return redirect("/personal_account")
         except:
@@ -113,7 +110,6 @@ def change_fon():
         if number not in ('1', '2', '3'):
             error = 'Может быть 1, 2 или 3'
             return render_template('change_fon.html', error=error)
-        number = request.form.get('email')
         session['fon'] = FON_LIST[number]
         if name != '':
             connection = sqlite3.connect('db/Reg.db')
@@ -127,10 +123,8 @@ def change_fon():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     session.permanent = True
-    global avatar
-    global fon
-    session['avatar'] = avatar
-    session['fon'] = fon
+    avatar = 'static/img_2/profil.png'
+    fon = '/static/fon_img/fon_1.jpg'
     error_1, error_2, error_3, error_4 = '', '', '', ''
     value_1, value_2, value_3, value_4 = '', '', '', ''
     system_error = ''
@@ -163,11 +157,14 @@ def login():
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
                                    system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
                                    value_4=value_4)
+        pass_3 = generate_password_hash(answer_3)
         cursor.execute(
             'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
-            (answer_1, answer_3, answer_2, session['avatar'], session['fon'], ''))
+            (answer_1, pass_3, answer_2, session['avatar'], session['fon'], ''))
         connection.commit()
         connection.close()
+        session['avatar'] = avatar
+        session['fon'] = fon
         session['name'] = answer_1
         return redirect("/personal_account")
 
@@ -187,14 +184,13 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             session['avatar'] = f'/static/avatar/{filename}'
-            avatar = session[avatar]
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
             connection.commit()
             connection.close()
-            return render_template('personal_account.html', avatar=avatar, name=name)
-    return render_template('personal_account.html', avatar=avatar, name=name)
+            return render_template('personal_account.html', avatar=session['avatar'], name=name)
+    return render_template('personal_account.html', avatar=session['avatar'], name=name)
 
 
 @app.route('/messenger', methods=['POST', 'GET'])

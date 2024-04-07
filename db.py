@@ -29,5 +29,8 @@ messages TEXT NOT NULL
 #                ('Хомяк', 'Василий', '[]'))
 # cursor.execute('INSERT INTO Users (name, topic, post_text, img_url) VALUES (?, ?, ?, ?)',
 # ('Mark', 'комната', '', '/static/img/m3.jpg'))
+# cursor.execute(
+#     'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
+#     ('Василий', '123', answer_2, session['avatar'], session['fon'], ''))
 connection.commit()
 connection.close()
