@@ -2,28 +2,40 @@
 
 {% block content %}
 <div style="background-image: url({{ fon }})">
+
     <h6><br></h6>
+
     {% for index in index_list %}
     <center>
-        <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block;">
+
+        <div style="background-color: white;border-radius: 9px;width: 400px; display: inline-block;">
             <h6><br></h6>
             <h3>{{ file_list[index][1] }}</h3>
             <center><img src="{{ file_list[index][-1] }}" width="360" height="450" style="border-radius: 5px;"></center>
             <h6><br></h6>
-            <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
-                    style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
+            <h3><div>
+  <i class="heart"></i>
+</div></h3>
         </div>
-        <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block; margin-left:60px;">
+        <div style="background-color: white;border-radius: 9px;width: 400px; display: inline-block; margin-left:60px;">
             <h6><br></h6>
             <h3>{{ file_list[index + 1][1] }}</h3>
             <center><img src="{{ file_list[index + 1][-1] }}" width="360" height="450" style="border-radius: 5px;">
             </center>
             <h6><br></h6>
-            <h3><a style="margin-left:220px;"><img src="/static/img_2/isbr.png" width="30" height="30"></a><a
-                    style="margin-left:20px;"><img src="/static/img_2/heart.jpg" width="30" height="30"></a></h3>
-        </div>
+            <h3><div>
+  <i class="heart"></i>
+</div></h3>
+        </div></h3>
     </center>
     <h6><br></h6>
     {% endfor %}
 </div>
+<script>
+      $(function() {
+    $( "i" ).click(function() {
+      $( "i,span" ).toggleClass( "press", 1000 );
+    });
+  });
+</script>
 {% endblock %}
