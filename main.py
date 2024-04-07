@@ -198,7 +198,6 @@ def login():
 def personal_account():
     session.permanent = True
     name = session['name']
-    avatar = session['avatar']
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -211,7 +210,7 @@ def personal_account():
             session['avatar'] = f'/static/avatar/{filename}'
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
-            cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
+            cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
