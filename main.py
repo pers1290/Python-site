@@ -33,10 +33,30 @@ def exit():
     return redirect("/tinttye")
 
 
+@app.route('/test_1')
+def test_1():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("/change_fon")
+
+
+@app.route('/test_2')
+def test_2():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("https://github.com/pers1290/flask")
+
+
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     fon = '/static/fon_img/fon_1.jpg'
     name = ''
+    error = ''
+    if 'error' in session:
+        error = session['error']
+        session.pop('error')
     avatar = 'static/img_2/profil.png'
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
@@ -60,7 +80,7 @@ def tinttye():
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
         users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
-    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name)
+    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name, error=error)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
