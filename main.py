@@ -27,10 +27,36 @@ def index():
     return redirect("/tinttye")
 
 
+@app.route('/exit')
+def exit():
+    session.clear()
+    return redirect("/tinttye")
+
+
+@app.route('/test_1')
+def test_1():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("/change_fon")
+
+
+@app.route('/test_2')
+def test_2():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("https://github.com/pers1290/flask")
+
+
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     fon = '/static/fon_img/fon_1.jpg'
     name = ''
+    error = ''
+    if 'error' in session:
+        error = session['error']
+        session.pop('error')
     avatar = 'static/img_2/profil.png'
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
@@ -54,7 +80,7 @@ def tinttye():
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
         users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
-    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name)
+    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name, error=error)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -102,9 +128,6 @@ def registration():
 def change_fon():
     global FON_LIST
     session.permanent = True
-    name = ''
-    if 'name' in session['name']:
-        name = session['name']
     error = ''
     if request.method == 'GET':
         return render_template('change_fon.html', error=error)
@@ -114,12 +137,11 @@ def change_fon():
             error = 'Может быть 1, 2 или 3'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        if name != '':
-            connection = sqlite3.connect('db/Reg.db')
-            cursor = connection.cursor()
-            cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], name))
-            connection.commit()
-            connection.close()
+        connection = sqlite3.connect('db/Reg.db')
+        cursor = connection.cursor()
+        cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
+        connection.commit()
+        connection.close()
         return redirect("/tinttye")
 
 
@@ -176,7 +198,6 @@ def login():
 def personal_account():
     session.permanent = True
     name = session['name']
-    avatar = session['avatar']
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -189,7 +210,7 @@ def personal_account():
             session['avatar'] = f'/static/avatar/{filename}'
             connection = sqlite3.connect('db/Reg.db')
             cursor = connection.cursor()
-            cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (avatar, name))
+            cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
@@ -206,7 +227,6 @@ def messenger():
         user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
         user_1 = user_1[0][0]
         user_1 = json.loads(user_1)
-        print(user_1)
         return render_template('messenger.html', user_1=user_1, name=name)
 
 
@@ -221,7 +241,6 @@ def handleMessage(msg):
     user_1 = json.loads(user_1)
     user_1.append((name, msg))
     d = json.dumps(user_1, ensure_ascii=False)
-    print(d)
     if name == 'Василий':
         cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
         cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, 'Хомяк'))
