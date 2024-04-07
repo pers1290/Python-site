@@ -31,6 +31,7 @@ def index():
 def tinttye():
     fon = '/static/fon_img/fon_1.jpg'
     name = ''
+    avatar = 'static/img_2/profil.png'
     connection = sqlite3.connect('db/User.db')
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
@@ -44,6 +45,8 @@ def tinttye():
         name = session['name']
     if 'fon' in session:
         fon = session['fon']
+    if 'avatar' in session:
+        avatar = session['avatar']
     if len_db % 2 == 0:
         for i in range(0, len_db, 2):
             index_list.append(i)
@@ -160,7 +163,7 @@ def login():
         pass_3 = generate_password_hash(answer_3)
         cursor.execute(
             'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
-            (answer_1, pass_3, answer_2, session['avatar'], session['fon'], ''))
+            (answer_1, pass_3, answer_2, avatar, fon, ''))
         connection.commit()
         connection.close()
         session['avatar'] = avatar
