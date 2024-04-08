@@ -130,7 +130,7 @@ def change_fon():
     session.permanent = True
     error = ''
     if request.method == 'GET':
-        return render_template('change_fon.html', error=error)
+        return render_template('change_fon.html', error=error, avatar=session['avatar'])
     elif request.method == 'POST':
         number = request.form.get('email')
         if number not in ('1', '2', '3'):
