@@ -46,7 +46,7 @@ def test_2():
     if 'name' not in session:
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
-    return redirect("https://github.com/pers1290/flask")
+    return redirect("/messenger")
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -80,7 +80,8 @@ def tinttye():
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
         users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
-    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name, error=error)
+    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
+                           error=error)
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -224,10 +225,44 @@ def messenger():
     if request.method == 'GET':
         connection = sqlite3.connect('db/Messanger.db')
         cursor = connection.cursor()
-        user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
-        user_1 = user_1[0][0]
-        user_1 = json.loads(user_1)
-        return render_template('messenger.html', user_1=user_1, name=name)
+        user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
+        friends = []
+        for h in user:
+            friends.append(h[0])
+        friends_avatars = []
+        connection2 = sqlite3.connect('db/Reg.db')
+        cursor2 = connection2.cursor()
+        count = []
+        k = 0
+        for i in friends:
+            df = cursor2.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
+            friends_avatars.append(df[0][0])
+            count.append(k)
+            k += 1
+        connection2.commit()
+        connection2.close()
+        connection.commit()
+        connection.close()
+        return render_template('messenger.html', name=name, friends=friends,
+                               friends_avatars=friends_avatars, count=count, df='', friend='', user=[])
+
+
+@app.route('/chat/<name>', methods=['POST', 'GET'])
+def chat(name):
+    connection2 = sqlite3.connect('db/Reg.db')
+    cursor2 = connection2.cursor()
+    df = cursor2.execute('SELECT profil_img FROM Reg WHERE name = ?', (name,)).fetchall()
+    connection2.commit()
+    connection2.close()
+    connection = sqlite3.connect('db/Messanger.db')
+    cursor = connection.cursor()
+    user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
+    user = user[0][0]
+    user = json.loads(user)
+    if request.method == 'GET':
+        return render_template('messenger.html', name=session['name'],
+                               friends=[],
+                               friends_avatars=[], count=[], df=df[0][0], friend=name, user=user)
 
 
 @socketio.on('message')
