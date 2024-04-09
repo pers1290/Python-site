@@ -344,12 +344,12 @@ body{
 	height: 0;
 }
 
-/* Focus */
+
 .input-file input[type=file]:focus + span {
 	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
-/* Hover/Active */
+
 .input-file:hover span {
 	background-color: #733048;
 }
@@ -357,12 +357,12 @@ body{
 	background-color: #B75276;
 }
 
-/* Disabled */
+
 .input-file input[type=file]:disabled + span {
 	background-color: #B75276;
 }
 
-/* Список файлов */
+
 .input-file-list {
 	padding: 10px 0;
 }
@@ -383,10 +383,9 @@ body{
        }
 
 .gallery {
-  --s: 150px; /* control the size */
-  --g: 10px;  /* control the gap */
-  --f: 1.5;   /* control the scale factor */
-
+  --s: 150px;
+  --g: 10px;
+  --f: 1.5;
   display: grid;
   gap: var(--g);
   width: calc(3*var(--s) + 2*var(--g));

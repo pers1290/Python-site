@@ -13,7 +13,9 @@ socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg'}
+FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg',
+            '4': '/static/fon_img/fon_12.gif', '5': '/static/fon_img/fon_5.gif', '6': '/static/fon_img/fon_6.jpg',
+            '7': '/static/fon_img/fon_7.png', '8': '/static/fon_img/fon_8.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -134,8 +136,8 @@ def change_fon():
         return render_template('change_fon.html', error=error, avatar=session['avatar'])
     elif request.method == 'POST':
         number = request.form.get('email')
-        if number not in ('1', '2', '3'):
-            error = 'Может быть 1, 2 или 3'
+        if number not in ('1', '2', '3', '4', '5', '6','7', '8'):
+            error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
         connection = sqlite3.connect('db/Reg.db')
