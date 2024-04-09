@@ -290,9 +290,8 @@ def chat(name):
     connection2.close()
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
-    user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-    print(user)
-    user = json.loads(user)
+    user = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+    user = json.loads(user[0][0])
     if request.method == 'GET':
         return render_template('friend.html', name=session['name'],
                                df=df[0][0], friend=name, user=user)

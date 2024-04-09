@@ -6,16 +6,6 @@
         <input type="text" placeholder="search">
     </header>
     <ul>
-        {% for j in count %}
-        <a href="/chat/{{ d[j] }}">
-            <li>
-                <img src="{{ b[j] }}" alt="" width="40" height="40">
-                <div>
-                    <h2>{{ d[j] }}</h2>
-                </div>
-            </li>
-        </a>
-        {% endfor %}
     </ul>
 </aside>
 <main>
@@ -27,7 +17,7 @@
         </div>
         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
     </header>
-    <ul>
+    <ul id="chat">
 
     </ul>
     <footer>
