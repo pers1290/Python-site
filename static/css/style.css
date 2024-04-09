@@ -245,3 +245,9 @@ i.press {
         transform-style: preserve-3d;
     }
 
+.btn_go{
+        width: 100px;
+        padding: 12px 24px;
+        border-radius: 50px;
+        background-color: #B35683;
+}
