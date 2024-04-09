@@ -46,7 +46,7 @@ def test_2():
     if 'name' not in session:
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
-    return redirect("https://github.com/pers1290/flask")
+    return redirect("/messenger")
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -185,8 +185,8 @@ def login():
                                    value_4=value_4)
         pass_3 = generate_password_hash(answer_3)
         cursor.execute(
-            'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
-            (answer_1, pass_3, answer_2, avatar, fon, ''))
+            'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites, friends) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (answer_1, pass_3, answer_2, avatar, fon, '', ''))
         connection.commit()
         connection.close()
         session['avatar'] = avatar
@@ -220,31 +220,65 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
+    connection = sqlite3.connect('db/Reg.db')
+    cursor = connection.cursor()
     session.permanent = True
     name = session['name']
+    error = ''
+    if 'error2'  in session:
+        error = session['error2']
+        session.pop('error2')
+    friends = []
+    friends_avatars = []
+    count = []
     if request.method == 'GET':
-        connection = sqlite3.connect('db/Messanger.db')
-        cursor = connection.cursor()
         user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-        friends = []
-        for h in user:
-            friends.append(h[0])
-        friends_avatars = []
-        connection2 = sqlite3.connect('db/Reg.db')
-        cursor2 = connection2.cursor()
-        count = []
+        for h in user[0][0].split():
+            friends.append(h)
         k = 0
         for i in friends:
-            df = cursor2.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
+            df = cursor.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
             friends_avatars.append(df[0][0])
             count.append(k)
             k += 1
-        connection2.commit()
-        connection2.close()
         connection.commit()
         connection.close()
-        return render_template('messenger.html', name=name, friends=friends,
-                               friends_avatars=friends_avatars, count=count, df='', friend='', user=[])
+        return render_template('groups.html', name=name, friends=friends,
+                               friends_avatars=friends_avatars, count=count, error=error)
+    elif request.method == 'POST':
+        answer_1 = request.form.get('friends')
+        answer_1 = answer_1.title()
+        try:
+            connection2 = sqlite3.connect('db/Messanger.db')
+            cursor2 = connection2.cursor()
+            sd = cursor2.execute('SELECT name FROM Reg').fetchall()
+            for i in sd:
+                if answer_1 in i[0]:
+                    session['error2'] = 'Такой чат есть'
+                    return redirect('/messenger')
+            user_1 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (answer_1,)).fetchall()
+            user_2 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
+            user_1 = user_1[0][0] + f'{name} '
+            user_2 = user_2[0][0] + f'{answer_1} '
+            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_1, answer_1))
+            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_2, name))
+            cursor2.execute(
+                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+                (answer_1, name, '[]'))
+            cursor2.execute(
+                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+                (name, answer_1, '[]'))
+            connection2.commit()
+            connection2.close()
+            connection.commit()
+            connection.close()
+            session.pop('error2')
+            return redirect('/messenger')
+        except:
+            session['error2'] = 'Ник не найден'
+            connection.commit()
+            connection.close()
+            return redirect('/messenger')
 
 
 @app.route('/chat/<name>', methods=['POST', 'GET'])
@@ -257,12 +291,11 @@ def chat(name):
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
     user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-    user = user[0][0]
+    print(user)
     user = json.loads(user)
     if request.method == 'GET':
-        return render_template('messenger.html', name=session['name'],
-                               friends=[],
-                               friends_avatars=[], count=[], df=df[0][0], friend=name, user=user)
+        return render_template('friend.html', name=session['name'],
+                               df=df[0][0], friend=name, user=user)
 
 
 @socketio.on('message')

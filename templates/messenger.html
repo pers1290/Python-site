@@ -238,57 +238,7 @@ main footer a{
 {% set d = friends %}
 {% set df = df %}
 <div id="container">
-    <aside>
-        <header>
-            <input type="text" placeholder="search">
-        </header>
-        {% if friends_avatars != [] %}
-            <ul>
-                {% for j in count %}
-                    <a href="/chat/{{ d[j] }}"><li>
-                        <img src="{{ b[j] }}" alt="" width="40" height="40">
-                        <div>
-                            <h2>{{ d[j] }}</h2>
-                        </div>
-                    </li></a>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <a href="#">К чатам</a>
-        {% endif %}
-    </aside>
-    <main>
-        {% if df == '' %}
-            <header>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                <div>
-                    <h2>Chat with Vincent Porter</h2>
-                    <h3>already 1902 messages</h3>
-                </div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
-            </header>
-        {% else %}
-            <header>
-                <img src="{{ df }}" alt="" width="50" height="50">
-                    <h2>{{ friend }}</h2>
-            </header>
-        {% endif %}
-        {% if user != [] %}
-            <ul id="chat">
-
-            </ul>
-        {% else %}
-            <ul>
-
-            </ul>
-        {% endif %}
-        <footer>
-            <textarea placeholder="Type your message" id="msg"></textarea>
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png" alt="">
-            <button onclick="sendMsg()">Отправить</button>
-        </footer>
-    </main>
+    {% block content %} {% endblock %}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
 <script>
