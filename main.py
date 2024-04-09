@@ -46,7 +46,7 @@ def test_2():
     if 'name' not in session:
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
-    return redirect("/messenger")
+    return redirect("https://github.com/pers1290/flask")
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -79,7 +79,7 @@ def tinttye():
     else:
         for i in range(0, len_db + 1, 2):
             index_list.append(i)
-        users.append(('', 'Tinttye bot', '', '', '/static/img_2/MARS-6.png'))
+        users.append(('', 'Tinttye bot', '', '/static/img_2/MARS-6.png', ''))
     return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
                            error=error)
 
