@@ -292,11 +292,11 @@ def chat(name):
     connection2.close()
     connection = sqlite3.connect('db/Messanger.db')
     cursor = connection.cursor()
-    user = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
-    user = json.loads(user[0][0])
+    user_sms = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
+    user_sms = json.loads(user_sms[0][0])
     if request.method == 'GET':
         return render_template('friend.html', name=session['name'],
-                               df=df[0][0], friend=name, user=user)
+                               df=df[0][0], friend=name, user_sms=user_sms)
 
 
 @socketio.on('message')
