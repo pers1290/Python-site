@@ -11,21 +11,20 @@ import sqlite3
 # favourites TEXT NOT NULL
 # )
 # ''')
-connection = sqlite3.connect('db/Messanger.db')
+connection = sqlite3.connect('db2/Reg.db')
 cursor = connection.cursor()
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS Reg (
-id INTEGER PRIMARY KEY,
-name TEXT NOT NULL,
-friends TEXT NOT NULL,
-messages TEXT NOT NULL,
-)
-''')
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS Reg (
+# id INTEGER PRIMARY KEY,
+# name TEXT NOT NULL,
+# friends TEXT NOT NULL,
+# messages TEXT NOT NULL,
+# )
+# ''')
 # new_column = "ALTER TABLE Reg ADD COLUMN friends"
 # cursor.execute(new_column)
-# cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('', 'Василий'))
-# cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('', 'Хомяк'))
-# cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('', 'С'))
+cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('Хомяк', 'Василий'))
+cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('Василий', 'Хомяк'))
 # cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
 #                ('Василий', 'Хомяк', '[]'))
 # cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',

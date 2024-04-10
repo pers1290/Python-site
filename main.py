@@ -60,7 +60,7 @@ def tinttye():
         error = session['error']
         session.pop('error')
     avatar = 'static/img_2/profil.png'
-    connection = sqlite3.connect('db/User.db')
+    connection = sqlite3.connect('db2/User_2.db')
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
     users = cursor.fetchall()
@@ -104,7 +104,7 @@ def registration():
         answer_3 = request.form.get('pasvord')
         answer_1 = answer_1.title()
         value_1, value_2, value_3 = answer_1, answer_3, answer_2
-        connection = sqlite3.connect('db/Reg.db')
+        connection = sqlite3.connect('db2/Reg.db')
         cursor = connection.cursor()
         try:
             cursor.execute('SELECT name, password, phone, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
@@ -140,7 +140,7 @@ def change_fon():
             error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        connection = sqlite3.connect('db/Reg.db')
+        connection = sqlite3.connect('db2/Reg.db')
         cursor = connection.cursor()
         cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
         connection.commit()
@@ -167,7 +167,7 @@ def login():
         answer_4 = request.form.get('pasvord2')
         answer_1 = answer_1.title()
         value_1, value_2, value_3, value_4 = answer_1, answer_3, answer_4, answer_2
-        connection = sqlite3.connect('db/Reg.db')
+        connection = sqlite3.connect('db2/Reg.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
@@ -201,7 +201,7 @@ def login():
 def personal_account():
     session.permanent = True
     name = session['name']
-    connection = sqlite3.connect('db/User.db')
+    connection = sqlite3.connect('db2/User_2.db')
     cursor = connection.cursor()
     cursor.execute('SELECT img_url FROM Users WHERE name = ?', name)
     users = cursor.fetchall()
@@ -222,7 +222,7 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             session['avatar'] = f'/static/avatar/{filename}'
-            connection = sqlite3.connect('db/Reg.db')
+            connection = sqlite3.connect('db2/Reg.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
@@ -234,7 +234,7 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
-    connection = sqlite3.connect('db/Reg.db')
+    connection = sqlite3.connect('db2/Reg.db')
     cursor = connection.cursor()
     session.permanent = True
     name = session['name']
@@ -263,7 +263,7 @@ def messenger():
         answer_1 = request.form.get('friends')
         answer_1 = answer_1.title()
         # try:
-        connection2 = sqlite3.connect('db/Messanger.db')
+        connection2 = sqlite3.connect('db2/Messanger.db')
         cursor2 = connection2.cursor()
         sd = cursor2.execute('SELECT name FROM Reg').fetchall()
         for i in sd:
@@ -298,12 +298,12 @@ def messenger():
 @app.route('/chat/<name>', methods=['POST', 'GET'])
 def chat(name):
     session['friend'] = name
-    connection2 = sqlite3.connect('db/Reg.db')
+    connection2 = sqlite3.connect('db2/Reg.db')
     cursor2 = connection2.cursor()
     df = cursor2.execute('SELECT profil_img FROM Reg WHERE name = ?', (name,)).fetchall()
     connection2.commit()
     connection2.close()
-    connection = sqlite3.connect('db/Messanger.db')
+    connection = sqlite3.connect('db2/Messanger.db')
     cursor = connection.cursor()
     user_sms = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
     user_sms = json.loads(user_sms[0][0])
@@ -316,7 +316,7 @@ def chat(name):
 def handleMessage(msg):
     session.permanent = True
     name = session['name']
-    connection = sqlite3.connect('db/Messanger.db')
+    connection = sqlite3.connect('db2/Messanger.db')
     cursor = connection.cursor()
     user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
     user_1 = user_1[0][0]
