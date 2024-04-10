@@ -136,7 +136,7 @@ def change_fon():
         return render_template('change_fon.html', error=error, avatar=session['avatar'])
     elif request.method == 'POST':
         number = request.form.get('email')
-        if number not in ('1', '2', '3', '4', '5', '6','7', '8'):
+        if number not in ('1', '2', '3', '4', '5', '6', '7', '8'):
             error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
@@ -228,7 +228,8 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', file_list=users, index_list=index_list, avatar=session['avatar'], name=name)
+    return render_template('personal_account.html', file_list=users, index_list=index_list, avatar=session['avatar'],
+                           name=name)
 
 
 @app.route('/messenger', methods=['POST', 'GET'])
