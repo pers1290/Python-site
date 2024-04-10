@@ -53,7 +53,7 @@ def test_2():
 
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
-    fon = '/static/fon_img/fon_1.jpg'
+    fon = '/static/fon_img/fon_7.png'
     name = ''
     error = ''
     if 'error' in session:
@@ -201,6 +201,17 @@ def login():
 def personal_account():
     session.permanent = True
     name = session['name']
+    connection = sqlite3.connect('db/User.db')
+    cursor = connection.cursor()
+    cursor.execute('SELECT img_url FROM Users WHERE name = ?', name)
+    users = cursor.fetchall()
+    connection.commit()
+    connection.close()
+    index_list = list(range(len(users)))
+    print(index_list)
+    print(name)
+    print(users)
+    print(users[0])
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -217,7 +228,7 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', avatar=session['avatar'], name=name)
+    return render_template('personal_account.html', file_list=users, index_list=index_list, avatar=session['avatar'], name=name)
 
 
 @app.route('/messenger', methods=['POST', 'GET'])
