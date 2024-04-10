@@ -2,7 +2,7 @@
 
 {% block content %}
 {% set user_sms = user_sms %}
-<aside>
+<aside xmlns="http://www.w3.org/1999/html">
     <header>
         <input type="text" placeholder="search">
     </header>
@@ -11,22 +11,22 @@
 </aside>
 <main>
     <header>
-        <h4><img src="{{ df }}"> {{ friend }}</h4>
+        <h4><img src="{{ df }}" width="60" height="40"> {{ friend }}</h4>
     </header>
-    {% if user_sms == [] %}
-    <br>
-    <h3>Ничего нет</h3>
-    {% else %}
-    <ul id="chat">
+    <ul id="my_chat" style="height: 500px; list-style-type: none; overflow-y:scroll;">
+        <li><br></li>
         {% for i in user_sms %}
-            {% if i[0] == name %}
-                <li style="color: red">{{ i[1] }}</li>
-            {% else %}
-                <li style="color: green">{{ i[1] }}</li>
-            {% endif %}
+        {% if i[0] == name %}
+        <li style="margin-bottom: 30px;"><span style="background-color: red; border-radius: 10px; padding: 8px;">{{
+            i[1] }}
+        </span></li>
+        {% else %}
+        <li style="margin-bottom: 30px;"><span style="background-color: green; border-radius: 10px; padding: 8px;">{{
+            i[1] }}
+        </span></li>
+        {% endif %}
         {% endfor %}
     </ul>
-    {% endif %}
     <footer>
         <textarea placeholder="Type your message" id="msg"></textarea>
         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">

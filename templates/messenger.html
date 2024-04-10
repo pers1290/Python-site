@@ -243,18 +243,17 @@ main footer a{
 <script>
     const socket = io();
     const msgInput = document.getElementById('msg');
-    const messages = document.getElementById('chat');
+    const messages = document.getElementById('my_chat');
 
     socket.on('message', function(msg){
         const li = document.createElement('li');
-        li.textContent = msg;
-        li.style.backgroundColor = "red"
-        li.style.borderRadius = "10px"
-        li.style.textAlign = "right"
-        li.style.display = "inline-block"
-        li.style.marginLeft = "150px"
-        li.style.marginTop = "1em"
-        li.style.float = "right"
+        const span = document.createElement('span');
+        span.textContent = msg;
+        span.style.backgroundColor = "red";
+        span.style.borderRadius = "10px";
+        span.style.padding = "8px";
+        li.appendChild(span);
+        li.style.marginBottom = "30px";
         messages.appendChild(li);
     });
 
