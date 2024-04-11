@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send
 import sqlite3
 import json
-import asyncio
+import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
@@ -201,17 +201,17 @@ def login():
 def personal_account():
     session.permanent = True
     name = session['name']
-    connection = sqlite3.connect('db2/User_2.db')
-    cursor = connection.cursor()
-    cursor.execute('SELECT img_url FROM Users WHERE name = ?', name)
-    users = cursor.fetchall()
-    connection.commit()
-    connection.close()
-    index_list = list(range(len(users)))
-    print(index_list)
-    print(name)
-    print(users)
-    print(users[0])
+    index_list = []
+    try:
+        connection = sqlite3.connect('db2/User_2.db')
+        cursor = connection.cursor()
+        cursor.execute('SELECT img_url FROM Users WHERE name = ?', name)
+        users = cursor.fetchall()
+        connection.commit()
+        connection.close()
+        index_list = list(range(len(users)))
+    except:
+        index_list = []
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -228,7 +228,7 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', file_list=users, index_list=index_list, avatar=session['avatar'],
+    return render_template('personal_account.html', index_list=index_list, avatar=session['avatar'],
                            name=name)
 
 
@@ -247,10 +247,12 @@ def messenger():
     count = []
     if request.method == 'GET':
         user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
+        print(user[0][0].split())
         for h in user[0][0].split():
             friends.append(h)
         k = 0
         for i in friends:
+            print(i)
             df = cursor.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
             friends_avatars.append(df[0][0])
             count.append(k)
@@ -262,41 +264,40 @@ def messenger():
     elif request.method == 'POST':
         answer_1 = request.form.get('friends')
         answer_1 = answer_1.title()
-        # try:
-        connection2 = sqlite3.connect('db2/Messanger.db')
-        cursor2 = connection2.cursor()
-        sd = cursor2.execute('SELECT name FROM Reg').fetchall()
-        for i in sd:
-            if answer_1 in i[0]:
-                session['error2'] = 'Такой чат есть'
-                return redirect('/messenger')
-        user_1 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (answer_1,)).fetchall()
-        user_2 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-        user_1 = user_1[0][0] + f'{name} '
-        user_2 = user_2[0][0] + f'{answer_1} '
-        cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_1, answer_1))
-        cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_2, name))
-        cursor2.execute(
-            'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-            (answer_1, name, '[]'))
-        cursor2.execute(
-            'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-            (name, answer_1, '[]'))
-        connection2.commit()
-        connection2.close()
-        connection.commit()
-        connection.close()
-        session.pop('error2')
-        return redirect('/messenger')
-        # except:
-        #     session['error2'] = 'Ник не найден'
-        #     connection.commit()
-        #     connection.close()
-        #     return redirect('/messenger')
+        try:
+            connection2 = sqlite3.connect('db2/Messanger.db')
+            cursor2 = connection2.cursor()
+            sd = cursor2.execute('SELECT name FROM Reg').fetchall()
+            user_1 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (answer_1,)).fetchall()
+            user_2 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
+
+            user_1 = user_1[0][0] + f' {name} '
+            user_2 = user_2[0][0] + f' {answer_1} '
+            print(user_1)
+            print(user_2)
+            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_1, answer_1))
+            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_2, name))
+            cursor2.execute(
+                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+                (answer_1, name, '[]'))
+            cursor2.execute(
+                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
+                (name, answer_1, '[]'))
+            connection2.commit()
+            connection2.close()
+            connection.commit()
+            connection.close()
+            return redirect('/messenger')
+        except:
+            session['error2'] = 'Ник не найден'
+            connection.commit()
+            connection.close()
+            return redirect('/messenger')
 
 
 @app.route('/chat/<name>', methods=['POST', 'GET'])
 def chat(name):
+    time.sleep(1)
     session['friend'] = name
     connection2 = sqlite3.connect('db2/Reg.db')
     cursor2 = connection2.cursor()
@@ -308,8 +309,9 @@ def chat(name):
     user_sms = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
     user_sms = json.loads(user_sms[0][0])
     if request.method == 'GET':
+        data = {'profil': session['avatar']}
         return render_template('friend.html', name=session['name'],
-                               df=df[0][0], friend=name, user_sms=user_sms)
+                               df=df[0][0], friend=name, user_sms=user_sms, profil=session['avatar'], data=data)
 
 
 @socketio.on('message')
@@ -321,14 +323,14 @@ def handleMessage(msg):
     user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
     user_1 = user_1[0][0]
     user_1 = json.loads(user_1)
-    user_1.append((name, msg))
+    str = f"{session['name']}: {msg[:20]}"
+    user_1.append((name, str))
     d = json.dumps(user_1, ensure_ascii=False)
     cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
     cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, session['friend']))
     connection.commit()
     connection.close()
-
-    send(msg[:20], broadcast=True)
+    send(str, broadcast=True)
 
 
 if __name__ == '__main__':

@@ -75,11 +75,13 @@
             <br>
             <form class="form" method="post" style="margin-left: 31%">
                 <div class="gallery" style="width: 94%; margin-left: 3%">
+                    {% if index_list != [] %}
                     {% for index in index_list %}
-                        <img src="{{ file_list[index][0] }}">
+                    <img src="{{ file_list[index][0] }}">
                     {% endfor %}
-
-
+                    {% else %}
+                    <h3 style="color: DarkMagenta;margin-left: 1%">Тут ничего нет</h3>
+                    {% endif %}
                 </div>
                 <br>
                 <a href="/exit" style="color: red; margin-left: 3%">Выйти</a>

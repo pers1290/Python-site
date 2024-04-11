@@ -108,7 +108,7 @@ aside li h3{
 	background-color:#ff725d;
 }
 .blue{
-	background-color:#6fbced;
+	background-image: url(/static/img/f.jpg);
 	margin-right:0;
 	margin-left:7px;
 }
@@ -240,20 +240,17 @@ main footer a{
     {% block content %} {% endblock %}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
-<script>
+<script type="text/javascript">
     const socket = io();
     const msgInput = document.getElementById('msg');
     const messages = document.getElementById('my_chat');
-
     socket.on('message', function(msg){
         const li = document.createElement('li');
-        const span = document.createElement('span');
-        span.textContent = msg;
-        span.style.backgroundColor = "red";
-        span.style.borderRadius = "10px";
-        span.style.padding = "8px";
-        li.appendChild(span);
-        li.style.marginBottom = "30px";
+        const h3 = document.createElement('h3');
+        h3.textContent = "ftgdsjdf";
+        li.appendChild(h3);
+        li.textContent = msg;
+        li.style.marginBottom = "15px";
         messages.appendChild(li);
     });
 
