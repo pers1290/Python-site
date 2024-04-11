@@ -271,8 +271,8 @@ def messenger():
             user_1 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (answer_1,)).fetchall()
             user_2 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
 
-            user_1 = user_1[0][0] + f' {name} '
-            user_2 = user_2[0][0] + f' {answer_1} '
+            user_1 = user_1[0][0] + f'{name} '
+            user_2 = user_2[0][0] + f'{answer_1} '
             print(user_1)
             print(user_2)
             cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_1, answer_1))
