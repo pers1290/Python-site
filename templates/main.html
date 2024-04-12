@@ -1,7 +1,21 @@
 {% extends "push.html" %}
 
 {% block content %}
-<div style="background-image: url({{ fon }})">
+<style>
+    .background {
+        background-image: url({{ fon }});
+        background-size: cover;
+        background-position: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+    </style>
+<div class="background"></div>
+
     <br>
 <div style="margin-left: 75vh;">
     <input class="search__input" type="text" placeholder="Введите имя...">
@@ -11,10 +25,12 @@
     <h6><br></h6>
     <center><a href="/registration"><h4 style="background-color: red; border-radius: 9px; width: 250px; color: black">{{
         error }}</h4></a></center>
+    <div style="margin-left: 30%;">
+    <div class="column" >
     {% for index in index_list %}
+    {% if loop.index % 2 != 0 %}
     <center>
-
-        <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block;">
+        <div style="background-color: white; border-radius: 30px; width: 400px;">
             <h6><br></h6>
             <h3>{{ file_list[index][1] }}</h3>
             <center><img src="{{ file_list[index][-2] }}" width="360" height="450" style="border-radius: 5px;"></center>
@@ -22,34 +38,46 @@
             <h3>{{ file_list[index][3] }}</h3>
             <h3>
                 <div>
-                    <i class="heart"></i>{{ file_list[index][-1] }}
+                    <i class="heart" data-post-id="{{ file_list[index][0] }}"></i>{{ file_list[index][-1] }}
                 </div>
             </h3>
         </div>
-        <div style="background-color: white;border-radius: 30px;width: 400px; display: inline-block; margin-left:60px;">
-            <h6><br></h6>
-            <h3>{{ file_list[index + 1][1] }}</h3>
-            <center><img src="{{ file_list[index + 1][-2] }}" width="360" height="450" style="border-radius: 5px;">
-            </center>
-            <h6><br></h6>
-            <h3>{{ file_list[index + 1][3] }}</h3>
-
-            <h3>
-                <div>
-                    <i class="heart"></i>{{ file_list[index][-1] }}
-                </div>
-            </h3>
-        </div>
-        </h3>
+        <h6><br></h6>
     </center>
-    <h6><br></h6>
+    {% endif %}
     {% endfor %}
 </div>
+
+<div class="column" style="margin-left: 5%;">
+    {% for index in index_list %}
+    {% if loop.index % 2 == 0 %}
+    <center>
+        <div style="background-color: white; border-radius: 30px; width: 400px;">
+            <h6><br></h6>
+            <h3>{{ file_list[index][1] }}</h3>
+            <center><img src="{{ file_list[index][-2] }}" width="360" height="450" style="border-radius: 5px;"></center>
+            <h6><br></h6>
+            <h3>{{ file_list[index][3] }}</h3>
+            <h3>
+                <div>
+                    <i class="heart" data-post-id="{{ file_list[index][0] }}"></i>{{ file_list[index][-1] }}
+                </div>
+            </h3>
+        </div>
+        <h6><br></h6>
+    </center>
+    {% endif %}
+    {% endfor %}
+</div>
+    </div>
+
 <script>
-    $(function() {
-  $( "i" ).click(function() {
-    $( "i,span" ).toggleClass( "press", 1000 );
-  });
+$(function() {
+    $( "i" ).click(function() {
+        var postId = $(this).data("post-id");
+        $( "i[data-post-id='" + postId + "']" ).toggleClass( "press", 1000 );
+    });
 });
 </script>
+
 {% endblock %}

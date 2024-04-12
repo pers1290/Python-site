@@ -334,4 +334,4 @@ def handleMessage(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True, port=8000)
+    socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
