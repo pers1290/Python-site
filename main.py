@@ -166,15 +166,15 @@ def login():
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
             error_3 = 'Пароли не совпадают'
-        cursor.execute('SELECT name FROM Reg')
-        name_user = cursor.fetchall()
-        if len(name_user) > 0 and answer_1 in name_user[0]:
+        try:
             cursor.execute('SELECT password FROM Reg WHERE name = ?', (answer_1,))
             name_user = cursor.fetchall()
-            if name_user[0][0] == answer_3:
+            if check_password_hash(name_user[0][0], answer_3):
                 system_error = 'Вы уже зарегистрированы в системе'
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
+        except:
+            pass
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
                                    system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
@@ -188,6 +188,8 @@ def login():
         session['avatar'] = avatar
         session['fon'] = fon
         session['name'] = answer_1
+        with open('db2/Name.txt', 'a', encoding='utf-8') as file:
+            file.write(f' {answer_1} ')
         return redirect("/personal_account")
 
 
@@ -233,99 +235,32 @@ def messenger():
     connection = sqlite3.connect('db2/Reg.db')
     cursor = connection.cursor()
     session.permanent = True
-    name = session['name']
-    error = ''
-    if 'error2' in session:
-        error = session['error2']
-        session.pop('error2')
-    friends = []
     friends_avatars = []
     count = []
     if request.method == 'GET':
-        user = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-        print(user[0][0].split())
-        for h in user[0][0].split():
-            friends.append(h)
+        with open('db2/Name.txt', 'r', encoding='utf-8') as file:
+            user = file.read().split()
+        with open('db2/SMS.txt', 'r', encoding='utf-8') as f:
+            user_sms = f.readlines()
+            if len(user_sms) > 300:
+                user_sms = user_sms[300:]
         k = 0
-        for i in friends:
-            print(i)
+        for i in user:
             df = cursor.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
             friends_avatars.append(df[0][0])
             count.append(k)
             k += 1
         connection.commit()
         connection.close()
-        return render_template('groups.html', name=name, friends=friends,
-                               friends_avatars=friends_avatars, count=count, error=error)
-    elif request.method == 'POST':
-        answer_1 = request.form.get('friends')
-        answer_1 = answer_1.title()
-        try:
-            connection2 = sqlite3.connect('db2/Messanger.db')
-            cursor2 = connection2.cursor()
-            sd = cursor2.execute('SELECT name FROM Reg').fetchall()
-            user_1 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (answer_1,)).fetchall()
-            user_2 = cursor.execute('SELECT friends FROM Reg WHERE name = ?', (name,)).fetchall()
-
-            user_1 = user_1[0][0] + f'{name} '
-            user_2 = user_2[0][0] + f'{answer_1} '
-            print(user_1)
-            print(user_2)
-            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_1, answer_1))
-            cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', (user_2, name))
-            cursor2.execute(
-                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-                (answer_1, name, '[]'))
-            cursor2.execute(
-                'INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
-                (name, answer_1, '[]'))
-            connection2.commit()
-            connection2.close()
-            connection.commit()
-            connection.close()
-            return redirect('/messenger')
-        except:
-            session['error2'] = 'Ник не найден'
-            connection.commit()
-            connection.close()
-            return redirect('/messenger')
-
-
-@app.route('/chat/<name>', methods=['POST', 'GET'])
-def chat(name):
-    time.sleep(1)
-    session['friend'] = name
-    connection2 = sqlite3.connect('db2/Reg.db')
-    cursor2 = connection2.cursor()
-    df = cursor2.execute('SELECT profil_img FROM Reg WHERE name = ?', (name,)).fetchall()
-    connection2.commit()
-    connection2.close()
-    connection = sqlite3.connect('db2/Messanger.db')
-    cursor = connection.cursor()
-    user_sms = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
-    user_sms = json.loads(user_sms[0][0])
-    if request.method == 'GET':
-        data = {'profil': session['avatar']}
-        return render_template('friend.html', name=session['name'],
-                               df=df[0][0], friend=name, user_sms=user_sms, profil=session['avatar'], data=data)
+        return render_template('groups.html', friends=user,
+                               friends_avatars=friends_avatars, count=count, user_sms=user_sms)
 
 
 @socketio.on('message')
 def handleMessage(msg):
-    session.permanent = True
-    name = session['name']
-    connection = sqlite3.connect('db2/Messanger.db')
-    cursor = connection.cursor()
-    user_1 = cursor.execute('SELECT messages FROM Reg WHERE name = ?', (name,)).fetchall()
-    user_1 = user_1[0][0]
-    user_1 = json.loads(user_1)
-    str = f"{session['name']}: {msg[:20]}"
-    user_1.append((name, str))
-    d = json.dumps(user_1, ensure_ascii=False)
-    cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, name))
-    cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', (d, session['friend']))
-    connection.commit()
-    connection.close()
+    str = f"{session['name']}: {msg}"
+    with open('db2/SMS.txt', 'a', encoding='utf-8') as file:
+        file.write(str + '\n')
     send(str, broadcast=True)
 
 
