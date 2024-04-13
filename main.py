@@ -241,6 +241,8 @@ def messenger():
             user = file.read().split()
         with open('db2/SMS.txt', 'r', encoding='utf-8') as f:
             user_sms = f.readlines()
+            if len(user_sms) > 300:
+                user_sms = user_sms[300:]
         k = 0
         for i in user:
             df = cursor.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
