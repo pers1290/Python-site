@@ -167,15 +167,17 @@ def login():
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
             error_3 = 'Пароли не совпадают'
-        cursor.execute('SELECT name FROM Reg')
-        name_user = cursor.fetchall()
-        if len(name_user) > 0 and answer_1 in name_user[0]:
+        try:
             cursor.execute('SELECT password FROM Reg WHERE name = ?', (answer_1,))
             name_user = cursor.fetchall()
-            if name_user[0][0] == answer_3:
+            if check_password_hash(name_user[0][0], answer_3):
                 system_error = 'Вы уже зарегистрированы в системе'
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
+        except:
+            return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   value_4=value_4)
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
                                    system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
