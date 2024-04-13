@@ -175,9 +175,7 @@ def login():
             else:
                 error_1 = 'Такой никнейм есть, придумайте новый'
         except:
-            return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
-                                   value_4=value_4)
+            pass
         if (error_1, error_2, error_3, error_4, system_error) != ('', '', '', '', ''):
             return render_template('registr.html', error_1=error_1, error_2=error_2, error_3=error_3, error_4=error_4,
                                    system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
@@ -192,7 +190,7 @@ def login():
         session['fon'] = fon
         session['name'] = answer_1
         with open('db2/Name.txt', 'a', encoding='utf-8') as file:
-            file.write(f'{answer_1} ')
+            file.write(f' {answer_1} ')
         return redirect("/personal_account")
 
 
