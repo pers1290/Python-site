@@ -17,11 +17,11 @@
 <div class="background"></div>
 
     <br>
-<div style="margin-left: 75vh;">
-    <input class="search__input" type="text" placeholder="Введите имя...">
+<form style="margin-left: 75vh;" method="post">
+    <input class="search__input" type="text" name="user" placeholder="Введите ник..." required>
     <button class="btn_go" style="margin-left: 10px">поиск</button>
-</div>
-
+</form>
+    <center><a href="/tinttye" style="color: red"><h4>{{ s }}</h4></a></center>
     <h6><br></h6>
     <center><a href="/registration"><h4 style="background-color: red; border-radius: 9px; width: 250px; color: black">{{
         error }}</h4></a></center>
@@ -69,8 +69,8 @@
     {% endif %}
     {% endfor %}
 </div>
-    </div>
 
+    </div>
 <script>
 $(function() {
     $( "i" ).click(function() {
