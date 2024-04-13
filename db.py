@@ -21,9 +21,7 @@ cursor = connection.cursor()
 # messages TEXT NOT NULL,
 # )
 # ''')
-# new_column = "ALTER TABLE Reg ADD COLUMN friends"
-# cursor.execute(new_column)
-cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('Хомяк С Ы Рн ', 'Василий'))
+# cursor.execute('UPDATE Reg SET friends = ? WHERE name = ?', ('Хомяк С Ы Рн ', 'Василий'))
 # cursor.execute('UPDATE Reg SET messages = ? WHERE name = ?', ('[]', 'Хомяк'))
 # cursor.execute('INSERT INTO Reg (name, friends, messages) VALUES (?, ?, ?)',
 #                ('Василий', 'Хомяк', '[]'))
