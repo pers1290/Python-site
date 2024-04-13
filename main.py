@@ -75,13 +75,8 @@ def tinttye():
         fon = session['fon']
     if 'avatar' in session:
         avatar = session['avatar']
-    if len_db % 2 == 0:
-        for i in range(0, len_db, 2):
-            index_list.append(i)
-    else:
-        for i in range(0, len_db + 1, 2):
-            index_list.append(i)
-        users.append(('', 'Tinttye bot', '', '/static/img_2/MARS-6.png', ''))
+    index_list = list(range(len_db))
+    print(index_list)
     return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
                            error=error)
 
