@@ -246,6 +246,9 @@ main footer a{
     const messages = document.getElementById('my_chat');
     socket.on('message', function(msg){
         const li = document.createElement('li');
+        const h3 = document.createElement('h3');
+        h3.textContent = "ftgdsjdf";
+        li.appendChild(h3);
         li.textContent = msg;
         li.style.marginBottom = "15px";
         messages.appendChild(li);
