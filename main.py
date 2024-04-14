@@ -217,8 +217,10 @@ def personal_account():
         connection.commit()
         connection.close()
         index_list = list(range(len(users)))
+        file_list = users
     except:
         index_list = []
+        file_list = []
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -235,7 +237,7 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', index_list=index_list, avatar=session['avatar'],
+    return render_template('personal_account.html', index_list=index_list, file_list=file_list, avatar=session['avatar'],
                            name=name)
 
 
@@ -276,4 +278,4 @@ def handleMessage(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
+    socketio.run(app, allow_unsafe_werkzeug=True, port=5000)
