@@ -109,7 +109,7 @@ def registration():
         answer_3 = request.form.get('pasvord')
         answer_1 = answer_1.title()
         value_1, value_2, value_3 = answer_1, answer_3, answer_2
-        connection = sqlite3.connect('db2/Reg.db')
+        connection = sqlite3.connect('db2/Reg_1.db')
         cursor = connection.cursor()
         try:
             cursor.execute('SELECT name, password, phone, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
@@ -145,7 +145,7 @@ def change_fon():
             error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        connection = sqlite3.connect('db2/Reg.db')
+        connection = sqlite3.connect('db2/Reg_1.db')
         cursor = connection.cursor()
         cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
         connection.commit()
@@ -172,7 +172,7 @@ def login():
         answer_4 = request.form.get('pasvord2')
         answer_1 = answer_1.title()
         value_1, value_2, value_3, value_4 = answer_1, answer_3, answer_4, answer_2
-        connection = sqlite3.connect('db2/Reg.db')
+        connection = sqlite3.connect('db2/Reg_1.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
@@ -229,7 +229,7 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             session['avatar'] = f'/static/avatar/{filename}'
-            connection = sqlite3.connect('db2/Reg.db')
+            connection = sqlite3.connect('db2/Reg_1.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
@@ -241,7 +241,7 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
-    connection = sqlite3.connect('db2/Reg.db')
+    connection = sqlite3.connect('db2/Reg_1.db')
     cursor = connection.cursor()
     session.permanent = True
     friends_avatars = []
