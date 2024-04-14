@@ -62,12 +62,6 @@ def tinttye():
     avatar = 'static/img_2/profil.png'
     connection = sqlite3.connect('db2/User_2.db')
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Users')
-    users = cursor.fetchall()
-    connection.commit()
-    connection.close()
-    len_db = len(users)
-    index_list = []
     session.permanent = True
     if 'name' in session:
         name = session['name']
@@ -75,9 +69,26 @@ def tinttye():
         fon = session['fon']
     if 'avatar' in session:
         avatar = session['avatar']
-    index_list = list(range(len_db))
-    return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
-                           error=error)
+    if request.method == 'GET':
+        cursor.execute('SELECT * FROM Users')
+        users = cursor.fetchall()
+        len_db = len(users)
+        index_list = list(range(len_db))
+        connection.commit()
+        connection.close()
+        return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
+                               error=error, s='')
+    elif request.method == 'POST':
+        answer_1 = request.form.get('user')
+        answer_1 = answer_1.title()
+        posts = cursor.execute('SELECT * FROM Users WHERE name = ?', (answer_1,)).fetchall()
+        print(posts)
+        len_db = len(posts)
+        index_list = list(range(len_db))
+        connection.commit()
+        connection.close()
+        return render_template('main.html', file_list=posts, index_list=index_list, fon=fon, avatar=avatar, name=name,
+                               error=error, s='сброс')
 
 
 @app.route('/registration', methods=['POST', 'GET'])
@@ -206,10 +217,8 @@ def personal_account():
         connection.commit()
         connection.close()
         index_list = list(range(len(users)))
-        file_list = users
     except:
         index_list = []
-        file_list = []
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -226,7 +235,7 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', index_list=index_list, file_list=file_list, avatar=session['avatar'],
+    return render_template('personal_account.html', index_list=index_list, avatar=session['avatar'],
                            name=name)
 
 
@@ -244,6 +253,8 @@ def messenger():
             user_sms = f.readlines()
             if len(user_sms) > 300:
                 user_sms = user_sms[300:]
+                with open('db2/SMS.txt', 'w', encoding='utf-8') as fl:
+                    fl.write('\n'.join(user_sms) + '\n')
         k = 0
         for i in user:
             df = cursor.execute('SELECT profil_img FROM Reg WHERE name = ?', (i,)).fetchall()
