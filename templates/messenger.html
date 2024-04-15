@@ -7,14 +7,12 @@
         *{
 	box-sizing:border-box;
 }
-body{
-	background-color: #b701fe;
-	font-family:Arial;
-}
+
+
 #container{
-	width:750px;
-	height:800px;
-	background:#eff3f7;
+	width:960px;
+	height:910px;
+	background:#ccb8b8;
 	margin:0 auto;
 	font-size:0;
 	border-radius:20px;
@@ -22,15 +20,15 @@ body{
 }
 aside{
 	width:260px;
-	height:800px;
+	height:910px;
 	background-color:#3b3e49;
 	display:inline-block;
 	font-size:15px;
 	vertical-align:top;
 }
 main{
-	width:490px;
-	height:800px;
+	width:700px;
+	height:900px;
 	display:inline-block;
 	font-size:15px;
 	vertical-align:top;
@@ -203,6 +201,7 @@ main footer{
 	padding:20px 30px 10px 20px;
 }
 main footer textarea{
+    color: wheat;
 	resize:none;
 	border:none;
 	display:block;
@@ -230,9 +229,16 @@ main footer a{
 	margin-top:5px;
 	display:inline-block;
 }
+
+
     </style>
 </head>
-<body>
+<body style="background-image: url('/static/fon_img/fon_6.jpg');
+        background-size: cover;">
+<br>
+<br>
+<br>
+<br>
 {% set a = name %}
 {% set b = friends_avatars %}
 {% set d = friends %}
@@ -260,5 +266,7 @@ main footer a{
         msgInput.value = '';
     }
 </script>
+
 </body>
+
 </html>
