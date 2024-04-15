@@ -274,7 +274,7 @@ def messenger():
 
 @socketio.on('message')
 def handleMessage(msg):
-    str = f"{session['name']}: {msg}<br>hello"
+    str = f"{session['name']}: {msg}"
     with open('db2/SMS.txt', 'a', encoding='utf-8') as file:
         file.write(str + '\n')
     send(str, broadcast=True)
