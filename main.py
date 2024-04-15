@@ -4,10 +4,12 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send
 import sqlite3
-import json
-import time
+from dotenv import load_dotenv
+from mail import send_mail
+import random
 
 app = Flask(__name__)
+load_dotenv()
 app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
 socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
@@ -237,7 +239,8 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', index_list=index_list, file_list=file_list, avatar=session['avatar'],
+    return render_template('personal_account.html', index_list=index_list, file_list=file_list,
+                           avatar=session['avatar'],
                            name=name)
 
 
