@@ -198,8 +198,8 @@ def login():
                                    value_4=value_4)
         pass_3 = generate_password_hash(answer_3)
         cursor.execute(
-            'INSERT INTO Reg (name, password, email, profil_img, fon_img, favourites, friends) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (answer_1, pass_3, answer_2, avatar, fon, '', ''))
+            'INSERT INTO Reg (name, password, email, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
+            (answer_1, pass_3, answer_2, avatar, fon, ''))
         connection.commit()
         connection.close()
         session['avatar'] = avatar
