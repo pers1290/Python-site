@@ -9,6 +9,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/style_3.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Tinttue</title>
 
 </head>
@@ -62,6 +63,17 @@
                    style="width: 50px; margin-right: 45px; border-radius: 10px; border: none; height: 50px; font-size:26px; text-align: center;">
             <input maxlength="1" required name="cod_5"
                    style="width: 50px; margin-right: 45px; border-radius: 10px; border: none; height: 50px; font-size:26px; text-align: center;">
+            <script type="text/javascript">
+                $('input').bind('keyup',function(event){
+                    var maxlen = $(this).attr('maxlength');
+                    if($(this).val().length >= parseInt(maxlen))
+                    {
+                        var next = $(this).next();
+                        if(next)
+                            next.focus();
+                    }
+                });
+            </script>
 
         </div>
         <br>
