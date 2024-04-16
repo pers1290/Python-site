@@ -103,7 +103,8 @@ def registration():
     if request.method == 'GET':
         if 'name' not in session:
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   error_3=error_3)
         else:
             return redirect("/personal_account")
     elif request.method == 'POST':
@@ -122,8 +123,10 @@ def registration():
                 error_3 = 'Неверный адрес электонной почты'
             if check_password_hash(user[1], answer_3) is False:
                 error_2 = 'Неверный пароль'
+            if (error_3, error_2, error_1) != ('', '', ''):
                 return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                       system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
+                                       system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                       error_3=error_3)
             session.permanent = True
             session['avatar'] = user[3]
             session['fon'] = user[4]
@@ -135,7 +138,8 @@ def registration():
         except:
             system_error = 'Вас не в системе, зарегистрируйтесь'
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   error_3=error_3)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
