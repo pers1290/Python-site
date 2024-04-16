@@ -97,12 +97,13 @@ def tinttye():
 def registration():
     error_1 = ''
     error_2 = ''
+    error_3 = ''
     value_1, value_2, value_3 = '', '', ''
     system_error = ''
     if request.method == 'GET':
         if 'name' not in session:
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
         else:
             return redirect("/personal_account")
     elif request.method == 'POST':
@@ -114,24 +115,27 @@ def registration():
         connection = sqlite3.connect('db2/Reg_1.db')
         cursor = connection.cursor()
         try:
-            cursor.execute('SELECT name, password, phone, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
+            cursor.execute('SELECT name, password, email, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
             users = cursor.fetchall()
             user = users[0]
+            if user[2] != answer_2:
+                error_3 = 'Неверный адрес электонной почты'
             if check_password_hash(user[1], answer_3) is False:
                 error_2 = 'Неверный пароль'
                 return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                       system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
+                                       system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
             session.permanent = True
             session['avatar'] = user[3]
             session['fon'] = user[4]
             connection.commit()
             connection.close()
             session['name'] = answer_1
-            return redirect("/personal_account")
+            session['email'] = answer_2
+            return redirect("/sms_cod")
         except:
             system_error = 'Вас не в системе, зарегистрируйтесь'
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -194,16 +198,17 @@ def login():
                                    value_4=value_4)
         pass_3 = generate_password_hash(answer_3)
         cursor.execute(
-            'INSERT INTO Reg (name, password, phone, profil_img, fon_img, favourites, friends) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO Reg (name, password, email, profil_img, fon_img, favourites, friends) VALUES (?, ?, ?, ?, ?, ?, ?)',
             (answer_1, pass_3, answer_2, avatar, fon, '', ''))
         connection.commit()
         connection.close()
         session['avatar'] = avatar
         session['fon'] = fon
         session['name'] = answer_1
+        session['email'] = answer_2
         with open('db2/Name.txt', 'a', encoding='utf-8') as file:
             file.write(f' {answer_1} ')
-        return redirect("/personal_account")
+        return redirect("/sms_cod")
 
 
 @app.route('/personal_account', methods=['POST', 'GET'])
@@ -242,6 +247,30 @@ def personal_account():
     return render_template('personal_account.html', index_list=index_list, file_list=file_list,
                            avatar=session['avatar'],
                            name=name)
+
+
+@app.route('/sms_cod', methods=['POST', 'GET'])
+def sms_cod():
+    if request.method == 'GET':
+        cod = random.randint(10000, 100000)
+        session['cod'] = str(cod)
+        email = session['email']
+        if send_mail(email, 'Код подтверждения', f'Ваш код: {cod}'):
+            return render_template('sms_cod.html', error='')
+        else:
+            return render_template('sms_cod.html', error='Проблема при отправки sms')
+    elif request.method == 'POST':
+        cod_1 = request.form.get('cod_1')
+        cod_2 = request.form.get('cod_2')
+        cod_3 = request.form.get('cod_3')
+        cod_4 = request.form.get('cod_4')
+        cod_5 = request.form.get('cod_5')
+        cod = f'{cod_1}{cod_2}{cod_3}{cod_4}{cod_5}'
+        if cod == session['cod']:
+            session.pop('cod')
+            return redirect("/personal_account")
+        else:
+            return render_template('sms_cod.html', error='Неправильный код')
 
 
 @app.route('/messenger', methods=['POST', 'GET'])

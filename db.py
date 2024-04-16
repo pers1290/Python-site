@@ -1,18 +1,20 @@
 import sqlite3
 
-# cursor.execute('''
-# CREATE TABLE IF NOT EXISTS Reg (
-# id INTEGER PRIMARY KEY,
-# name TEXT NOT NULL,
-# password TEXT NOT NULL,
-# phone TEXT NOT NULL,
-# profil_img TEXT NOT NULL,
-# fon_img TEXT NOT NULL,
-# favourites TEXT NOT NULL
-# )
-# ''')
-connection = sqlite3.connect('db2/Reg.db')
+connection = sqlite3.connect('db2/Reg_1.db')
 cursor = connection.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Reg (
+id INTEGER PRIMARY KEY,
+name TEXT NOT NULL,
+password TEXT NOT NULL,
+email TEXT NOT NULL,
+profil_img TEXT NOT NULL,
+fon_img TEXT NOT NULL,
+favourites TEXT NOT NULL
+)
+''')
+# connection = sqlite3.connect('db2/Reg.db')
+# cursor = connection.cursor()
 # cursor.execute('''
 # CREATE TABLE IF NOT EXISTS Reg (
 # id INTEGER PRIMARY KEY,
