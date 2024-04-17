@@ -1,0 +1,109 @@
+<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+        <title>Redaction</title>
+        <style>
+          html,body{
+            display: grid;
+            height: 100%;
+	        background-color: #ABCDEF;
+	        text-align: center;
+            place-items: center;
+	        font-family:Arial;
+	      .range {
+	        border: 10px solid #fff;
+	        border-radius: 7px;
+	        background: #fff;
+	      }
+          .foto {
+            margin: auto;
+            border: 10px solid #fff;
+            background: #fff;
+            border-radius: 7px;
+            }
+          .polz1 {
+            margin: auto;
+            height: 40px;
+            width: 350px;
+            border: 10px solid #ba66ff;
+            background: #ba66ff;
+            border-radius: 7px;
+            }
+          .polz2 {
+            margin: auto;
+            height: 40px;
+            width: 350px;
+            border: 10px solid #ba66ff;
+            background: #ba66ff;
+            border-radius: 7px;
+            }
+          .polz3 {
+            margin: auto;
+            height: 40px;
+            width: 350px;
+            border: 10px solid #ba66ff;
+            background: #ba66ff;
+            border-radius: 7px;
+            }
+          .kno {
+            margin: auto;
+            height: 40px;
+            width: 100px;
+            border: 10px solid #ba66ff;
+            background: #ba66ff;
+            border-radius: 7px;
+            }
+          .warm {
+            display: inline-block;
+            box-sizing: border-box;
+            padding: 0 15px;
+            margin: 0 15px 15px 0;
+            outline: none;
+            border: none;
+            border-radius: 4px;
+            height: 36px;
+            line-height: 36px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #fff;
+            background-color: #1a73e8;
+            position: relative;
+            overflow:hidden;
+            vertical-align: top;
+            cursor: pointer;
+            user-select: none;
+            appearance: none;
+            touch-action: manipulation;
+            z-index: 1;
+            }
+        </style>
+      </head>
+      <body>
+      <form action="" method="post">
+        <p class="foto">
+          <img src="static/img/red_.png" alt=""/>
+        </p>
+        <div class="range">
+          <div class="polz1">
+            <input type="range" class="submit" id="val1" name="val1" min="0" max="150" value={{ vall1 }} />
+            <div>Яркость</div>
+          </div>
+          <div class="polz2">
+            <input type="range" class="submit" id="val2" name="val2" min="0" max="150" value={{ vall2 }} />
+            <div>Резкость</div>
+          </div>
+          <div class="polz3">
+            <input type="range" class="submit" id="val3" name="val3" min="0" max="70" value={{ vall3 }} />
+            <div>Насыщенность</div>
+          </div>
+          <div class="kno">
+            <button class="submit">Применить</button>
+          </div>
+        </div>
+      </form>
+      </body>
+    </html>
