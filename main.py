@@ -31,10 +31,12 @@ def contr(im, co):
     im = im.enhance(int(co) / 5)
     return im
 
+
 def sat(im, sa):  # функция, изменяющая насыщенность
     im = ImageEnhance.Color(im)
     im = im.enhance(int(sa) / 10)
     return im
+
 
 def bright(im, br):  # функция, изменяющая яркость
     pixels = im.load()
@@ -266,7 +268,8 @@ def personal_account():
             connection.commit()
             connection.close()
             return render_template('personal_account.html', avatar=session['avatar'], name=name)
-    return render_template('personal_account.html', index_list=index_list, file_list=file_list, avatar=session['avatar'],
+    return render_template('personal_account.html', index_list=index_list, file_list=file_list,
+                           avatar=session['avatar'],
                            name=name)
 
 
