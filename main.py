@@ -27,7 +27,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def contr(im, co):
@@ -84,8 +84,6 @@ def test_2():
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
     return redirect("/messenger")
-
-
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -189,7 +187,7 @@ def change_fon():
             error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        connection = sqlite3.connect('db2/Reg_1.db')
+        connection = sqlite3.connect('db2/Reg_2.db')
         cursor = connection.cursor()
         cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
         connection.commit()
@@ -201,7 +199,7 @@ def change_fon():
 def login():
     session.permanent = True
     avatar = '/static/img_2/profil.png'
-    fon = '/static/fon_img/fon_1.jpg'
+    fon = '/static/fon_img/fon_7.jpg'
     error_1, error_2, error_3, error_4 = '', '', '', ''
     value_1, value_2, value_3, value_4 = '', '', '', ''
     system_error = ''
@@ -216,7 +214,7 @@ def login():
         answer_4 = request.form.get('pasvord2')
         answer_1 = answer_1.title()
         value_1, value_2, value_3, value_4 = answer_1, answer_3, answer_4, answer_2
-        connection = sqlite3.connect('db2/Reg_1.db')
+        connection = sqlite3.connect('db2/Reg_2.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
@@ -238,7 +236,7 @@ def login():
         cursor.execute(
             'INSERT INTO Reg (name, password, email, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
             (answer_1, pass_3, answer_2, avatar, fon, ''))
-        connection.commit( )
+        connection.commit()
         connection.close()
         session['avatar'] = avatar
         session['fon'] = fon
@@ -276,7 +274,7 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             session['avatar'] = f'/static/avatar/{filename}'
-            connection = sqlite3.connect('db2/Reg_1.db')
+            connection = sqlite3.connect('db2/Reg_2.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
@@ -289,7 +287,7 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
-    connection = sqlite3.connect('db2/Reg_1.db')
+    connection = sqlite3.connect('db2/Reg_2.db')
     cursor = connection.cursor()
     session.permanent = True
     friends_avatars = []
