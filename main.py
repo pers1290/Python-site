@@ -319,8 +319,10 @@ def post():
         if file.filename == '':
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            file.save(os.path.join('static/img', 'red.png'))
-            im = Image.open('static/img/red.png')
+            if not os.path.isdir(f'static/img/{session["name"]}'):
+                os.mkdir(f'static/img/{session["name"]}')
+            file.save(os.path.join(f'static/img/{session["name"]}', 'red.png'))
+            im = Image.open(f'static/img/{session["name"]}/red.png')
             x, y = im.size
             if x > 500 or y > 500:
                 if x / 500 > y / 500:
@@ -338,8 +340,8 @@ def post():
                     else:
                         r, g, b = pixels[i, j], pixels[i, j], pixels[i, j]
                     pixels_new[i, j] = (r, g, b)
-            new_im.save('static/img/red_.png')
-            new_im.save('static/img/red.png')
+            new_im.save(f'static/img/{session["name"]}/red_.png')
+            new_im.save(f'static/img/{session["name"]}/red.png')
             return redirect("/red")
     return render_template('post.html')
 
@@ -350,15 +352,26 @@ def red():
     sa = 10
     br = 0
     if request.method == 'POST':
-        co = int(request.form.get('val2'))
-        sa = int(request.form.get('val3'))
-        br = int(request.form.get('val1'))
-        im = Image.open('static/img/red.png')
-        im = bright(im, br)
-        im = sat(im, sa)
-        im = contr(im, co)
-        im.save('static/img/red_.png')
-    return render_template('red.html', vall1=str(br), vall2=str(co), vall3=str(sa))
+        if request.form.get('pri') == 'v1':
+            co = int(request.form.get('val2'))
+            sa = int(request.form.get('val3'))
+            br = int(request.form.get('val1'))
+            im = Image.open(f'static/img/{session["name"]}/red.png')
+            im = bright(im, br)
+            im = sat(im, sa)
+            im = contr(im, co)
+            im.save(f'static/img/{session["name"]}/red_.png')
+        elif request.form.get('za') == 'v2':
+            con = sqlite3.connect('Posts.db')
+            cur = con.cursor()
+            result = cur.execute(f"""SELECT * FROM lool
+                        WHERE name = {session['name']}""").fetchall()
+            a = len(result)
+            res = f"""INSERT INTO expenses (name, img) VALUES({session['name']}, img{a + 1})"""
+            cur.execute(res)
+            con.close()
+            return redirect("/tinttye")
+    return render_template('red.html', immg=f"static/img/{session['name']}/red_.png", vall1=str(br), vall2=str(co), vall3=str(sa))
 
 
 @app.route('/sms_cod', methods=['POST', 'GET'])
