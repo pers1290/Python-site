@@ -86,17 +86,6 @@ def test_2():
     return redirect("/messenger")
 
 
-@app.route('/_stuff', methods=['GET'])
-def stuff():
-    post_id = request.json['post_id']
-    connection = sqlite3.connect('db2/User_2.db')
-    cursor = connection.cursor()
-    a = cursor.execute('SELECT likes FROM Users where id = ?', (post_id,)).fetchall()
-    a +=1
-    cursor.execute("UPDATE posts SET likes = ? WHERE post_id = ?", (a, post_id))
-    connection.commit()
-    print("Запись успешно обновлена")
-    cursor.close()
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])

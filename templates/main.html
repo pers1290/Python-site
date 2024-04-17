@@ -38,7 +38,6 @@
             <h3>{{ file_list[index][2] }}</h3>
             <h3>
                 <div>
-                    <h3>{{ file_list[index][3] }}</h3>
                     <br>
                 </div>
             </h3>
@@ -61,7 +60,6 @@
             <h3>{{ file_list[index][2] }}</h3>
             <h3>
                 <div>
-                    <h3>{{ file_list[index][3] }}</h3>
                     <br>
                 </div>
             </h3>
@@ -75,14 +73,6 @@
     </div>
 
 
-<script>
-$(function() {
-    $( "i" ).click(function() {
-        var postId = $(this).data("post-id");
-        $( "i[data-post-id='" + postId + "']" ).toggleClass( "press", 1000 );
-        $.getJSON($SCRIPT_ROOT + '/_stuff')
-    });
-});
-</script>
+
 
 {% endblock %}
