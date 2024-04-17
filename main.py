@@ -233,7 +233,7 @@ def login():
         cursor.execute(
             'INSERT INTO Reg (name, password, email, profil_img, fon_img, favourites) VALUES (?, ?, ?, ?, ?, ?)',
             (answer_1, pass_3, answer_2, avatar, fon, ''))
-        connection.commit()
+        connection.commit( )
         connection.close()
         session['avatar'] = avatar
         session['fon'] = fon
