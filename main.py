@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send
@@ -9,6 +9,8 @@ import PIL.ImageOps
 from dotenv import load_dotenv
 from mail import send_mail
 import random
+import time
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 load_dotenv()
@@ -25,7 +27,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def contr(im, co):
@@ -82,6 +84,8 @@ def test_2():
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
     return redirect("/messenger")
+
+
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
@@ -168,7 +172,8 @@ def registration():
         except:
             system_error = 'Вас нет в системе, зарегистрируйтесь'
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   error_3=error_3)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -195,7 +200,7 @@ def change_fon():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     session.permanent = True
-    avatar = 'static/img_2/profil.png'
+    avatar = '/static/img_2/profil.png'
     fon = '/static/fon_img/fon_1.jpg'
     error_1, error_2, error_3, error_4 = '', '', '', ''
     value_1, value_2, value_3, value_4 = '', '', '', ''
@@ -394,4 +399,4 @@ def handleMessage(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True, port=5000)
+    socketio.run(app, allow_unsafe_werkzeug=True, port=8080)

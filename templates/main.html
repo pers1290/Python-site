@@ -35,10 +35,10 @@
             <h3>{{ file_list[index][1] }}</h3>
             <center><img src="{{ file_list[index][-2] }}" width="360" height="450" style="border-radius: 5px;"></center>
             <h6><br></h6>
-            <h3>{{ file_list[index][3] }}</h3>
+            <h3>{{ file_list[index][2] }}</h3>
             <h3>
                 <div>
-                    <i class="heart" data-post-id="{{ file_list[index][0] }}"></i>{{ file_list[index][-1] }}
+                    <br>
                 </div>
             </h3>
         </div>
@@ -57,10 +57,10 @@
             <h3>{{ file_list[index][1] }}</h3>
             <center><img src="{{ file_list[index][-2] }}" width="360" height="450" style="border-radius: 5px;"></center>
             <h6><br></h6>
-            <h3>{{ file_list[index][3] }}</h3>
+            <h3>{{ file_list[index][2] }}</h3>
             <h3>
                 <div>
-                    <i class="heart" data-post-id="{{ file_list[index][0] }}"></i>{{ file_list[index][-1] }}
+                    <br>
                 </div>
             </h3>
         </div>
@@ -71,13 +71,8 @@
 </div>
 
     </div>
-<script>
-$(function() {
-    $( "i" ).click(function() {
-        var postId = $(this).data("post-id");
-        $( "i[data-post-id='" + postId + "']" ).toggleClass( "press", 1000 );
-    });
-});
-</script>
+
+
+
 
 {% endblock %}
