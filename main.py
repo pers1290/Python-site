@@ -117,7 +117,7 @@ def tinttye():
         error = session['error']
         session.pop('error')
     avatar = 'static/img_2/profil.png'
-    connection = sqlite3.connect('db2/User_2.db')
+    connection = sqlite3.connect('db2/Posts.db')
     cursor = connection.cursor()
     session.permanent = True
     if 'name' in session:
@@ -127,7 +127,7 @@ def tinttye():
     if 'avatar' in session:
         avatar = session['avatar']
     if request.method == 'GET':
-        cursor.execute('SELECT * FROM Users')
+        cursor.execute('SELECT * FROM Reg')
         users = cursor.fetchall()
         len_db = len(users)
         index_list = list(range(len_db))
@@ -138,7 +138,7 @@ def tinttye():
     elif request.method == 'POST':
         answer_1 = request.form.get('user')
         answer_1 = answer_1.title()
-        posts = cursor.execute('SELECT * FROM Users WHERE name = ?', (answer_1,)).fetchall()
+        posts = cursor.execute('SELECT * FROM Reg WHERE name = ?', (answer_1,)).fetchall()
         print(posts)
         len_db = len(posts)
         index_list = list(range(len_db))
@@ -167,7 +167,7 @@ def registration():
         answer_3 = request.form.get('pasvord')
         answer_1 = answer_1.title()
         value_1, value_2, value_3 = answer_1, answer_3, answer_2
-        connection = sqlite3.connect('db2/Reg_1.db')
+        connection = sqlite3.connect('db2/Reg_2.db')
         cursor = connection.cursor()
         try:
             cursor.execute('SELECT name, password, email, profil_img, fon_img FROM Reg WHERE name = ?', (answer_1,))
@@ -275,9 +275,9 @@ def personal_account():
     name = session['name']
     index_list = []
     try:
-        connection = sqlite3.connect('db2/User_2.db')
+        connection = sqlite3.connect('db2/Posts.db')
         cursor = connection.cursor()
-        cursor.execute('SELECT img_url FROM Users WHERE name = ?', name)
+        cursor.execute('SELECT img_url FROM Reg WHERE name = ?', name)
         users = cursor.fetchall()
         connection.commit()
         connection.close()
@@ -391,6 +391,7 @@ def red():
             cur2 = con2.cursor()
             cur2.execute('INSERT INTO Reg (name, img_url) VALUES (?, ?)',
                          (session['name'], f"static/img/{session['name']}/red_.png"))
+            con2.commit()
             con2.close()
             return redirect("/tinttye")
     return render_template('red.html', immg=f"static/img/{session['name']}/red_.png", vall1=str(br), vall2=str(co),
