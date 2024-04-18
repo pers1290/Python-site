@@ -453,7 +453,7 @@ def vopros():
         db.session.add(u)
         db.session.flush()
         db.session.commit()
-        return redirect("/personal_account")
+        return render_template('vopros.html')
 
 
 if __name__ == '__main__':
