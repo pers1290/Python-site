@@ -9,12 +9,13 @@ import PIL.ImageOps
 from dotenv import load_dotenv
 from mail import send_mail
 import random
-import time
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 load_dotenv()
 app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fg.db'
+db = SQLAlchemy(app)
 socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -23,6 +24,24 @@ FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', 
             '4': '/static/fon_img/fon_12.gif', '5': '/static/fon_img/fon_5.gif', '6': '/static/fon_img/fon_6.jpg',
             '7': '/static/fon_img/fon_7.png', '8': '/static/fon_img/fon_8.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+class Users_hobby(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(500), nullable=False)
+    hobby = db.Column(db.String(500), unique=True)
+
+    def __repr__(self):
+        return f"<users {self.id}>"
+
+
+class Users_liked(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    liked = db.Column(db.String(500), unique=True)
+
+    def __repr__(self):
+        return f"<profiles {self.id}>"
 
 
 def allowed_file(filename):
@@ -396,5 +415,13 @@ def handleMessage(msg):
     send(str, broadcast=True)
 
 
+@app.route('/survey', methods=['POST', 'GET'])
+def survey():
+    if request.method == 'GET':
+        return render_template('question.html')
+
+
 if __name__ == '__main__':
+    # with app.app_context():
+    #     db.create_all()
     socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
