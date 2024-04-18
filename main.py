@@ -419,6 +419,10 @@ def handleMessage(msg):
 def survey():
     if request.method == 'GET':
         return render_template('question.html')
+    elif request.method == 'POST':
+        radio = request.form['radio']
+        print(radio)
+        return render_template('question.html')
 
 
 if __name__ == '__main__':
