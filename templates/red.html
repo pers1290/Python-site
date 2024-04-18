@@ -55,6 +55,7 @@
             border: 10px solid #ba66ff;
             background: #ba66ff;
             border-radius: 7px;
+            color: #fff;
             }
           .warm {
             display: inline-block;
@@ -85,7 +86,7 @@
       <body>
       <form action="" method="post">
         <p class="foto">
-          <img src="static/img/red_.png" alt=""/>
+          <img src={{ immg }} alt=""/>
         </p>
         <div class="range">
           <div class="polz1">
@@ -101,7 +102,8 @@
             <div>Насыщенность</div>
           </div>
           <div class="kno">
-            <button class="submit">Применить</button>
+            <button class="submit" id="pri" name="pri" value="v1">Применить</button>
+            <button class="submit" id="za" name="za" value="v2">Загрузить</button>
           </div>
         </div>
       </form>
