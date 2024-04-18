@@ -1,0 +1,13 @@
+{% extends "survey.html" %}
+
+{% block content %}
+<form class="form" align="center" style="margin: auto;" method="post">
+    <div class="title">{{ st }}</div>
+    <br>
+    <br>
+    {% for i in sp %}
+        <div class="subtitle">{{ i[0] }}</div>
+        <img src="{{ i[1] }}">
+</form>
+
+{% endblock %}

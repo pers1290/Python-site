@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 from mail import send_mail
 import random
 from flask_sqlalchemy import SQLAlchemy
+from book import book
+from game import game
+from parser import parser
 
 app = Flask(__name__)
 load_dotenv()
@@ -420,9 +423,12 @@ def survey():
     if request.method == 'GET':
         return render_template('question.html')
     elif request.method == 'POST':
+        df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
+        gf = {'КНИГИ': 'Тор 10 лучших книг', 'ФИЛЬМЫ': 'Тор 10 лучших фильмов', 'ИГРЫ': 'Тор 10 лучших игр'}
         radio = request.form['radio']
-        print(radio)
-        return render_template('question.html')
+        sp = df[radio]
+        st = gf[radio]
+        return render_template('question.html', ps=sp, st=st)
 
 
 if __name__ == '__main__':
