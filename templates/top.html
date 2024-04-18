@@ -2,15 +2,24 @@
 
 {% block content %}
 <form class="form" align="center" style="margin: auto;" method="post">
-    <div class="title">{{ st }}</div>
+    <div class="title">Что нравится больше?</div>
     <br>
     <br>
-    {% for i in sp %}
-        <div class="subtitle">{{ i[0] }}</div>
-        <img src="{{ i[1] }}" height="500" width="350">
-        <br>
-        <br>
-    {% endfor %}
+    <section class="radio-section">
+        <div class="radio-list">
+            <div class="radio-item"><input value="КНИГИ" name="radio" id="radio1" type="radio"><label for="radio1">КНИГИ</label></div>
+            <br>
+            <div class="radio-item"><input value="ИГРЫ" name="radio" id="radio2" type="radio"><label for="radio2">ИГРЫ</label></div>
+            <br>
+            <div class="radio-item"><input value="ФИЛЬМЫ" name="radio" id="radio3" type="radio"><label for="radio3" >ФИЛЬМЫ</label>
+            </div>
+        </div>
+    </section>
+    <button class="submit" style="width: 500px; margin-right: 5px;">Ответить</button>
+    <h6><br></h6>
+    <img src="https://icdn.lenta.ru/images/2024/03/18/12/20240318124428086/detail_89fd7008b67e85010a5bac47daaaea0a.jpg"
+         width=40% height=20%
+         style="border-radius: 12px">
 </form>
 
 {% endblock %}

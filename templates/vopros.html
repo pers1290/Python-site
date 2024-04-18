@@ -1,0 +1,20 @@
+{% extends "survey.html" %}
+
+{% block content %}
+<form class="form" align="center" style="margin: auto;" method="post">
+    <div class="title">Комментарий</div>
+    <br>
+    <br>
+    <div class="input-container ic1">
+        <input id="firstname" class="input" type="text" placeholder=" " name="comment" required/>
+
+        <label for="firstname" class="placeholder">Коммент</label>
+    </div>
+    <button class="submit" style="width: 250px; margin-right: 5px;">Ответить</button>
+    <h6><br></h6>
+    <img src="https://icdn.lenta.ru/images/2024/03/18/12/20240318124428086/detail_89fd7008b67e85010a5bac47daaaea0a.jpg"
+         width=40% height=20%
+         style="border-radius: 12px">
+</form>
+
+{% endblock %}

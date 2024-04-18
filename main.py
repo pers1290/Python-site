@@ -444,5 +444,17 @@ def survey():
         return render_template('top.html', sp=sp, st=st)
 
 
+@app.route('/vopros', methods=['POST', 'GET'])
+def vopros():
+    if request.method == 'GET':
+        return render_template('vopros.html')
+    elif request.method == 'POST':
+        u = Users_liked(name=session['name'], liked=request.form.get('comment'))
+        db.session.add(u)
+        db.session.flush()
+        db.session.commit()
+        return redirect("/personal_account")
+
+
 if __name__ == '__main__':
     socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
