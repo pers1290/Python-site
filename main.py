@@ -31,8 +31,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 class Users_hobby(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(500), nullable=False)
-    hobby = db.Column(db.String(500), unique=True)
+    name = db.Column(db.String(500))
+    hobby = db.Column(db.String(500))
 
     def __repr__(self):
         return f"<users {self.id}>"
@@ -40,8 +40,8 @@ class Users_hobby(db.Model):
 
 class Users_liked(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(50), nullable=False)
-    liked = db.Column(db.String(500), unique=True)
+    name = db.Column(db.String(50))
+    liked = db.Column(db.String(500))
 
     def __repr__(self):
         return f"<profiles {self.id}>"
@@ -441,6 +441,7 @@ def survey():
         db.session.commit()
         sp = df[radio]
         st = gf[radio]
+
         return render_template('top.html', sp=sp, st=st)
 
 
