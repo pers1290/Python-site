@@ -428,7 +428,7 @@ def survey():
         radio = request.form['radio']
         sp = df[radio]
         st = gf[radio]
-        return render_template('question.html', ps=sp, st=st)
+        return render_template('top.html', sp=sp, st=st)
 
 
 if __name__ == '__main__':
