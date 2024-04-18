@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('db2/Reg_1.db')
+connection = sqlite3.connect('db2/Reg_2.db')
 cursor = connection.cursor()
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Reg (

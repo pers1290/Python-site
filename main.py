@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, send
@@ -9,10 +9,16 @@ import PIL.ImageOps
 from dotenv import load_dotenv
 from mail import send_mail
 import random
+from flask_sqlalchemy import SQLAlchemy
+from book import book
+from game import game
+from films import parser
 
 app = Flask(__name__)
 load_dotenv()
 app.config['SECRET_KEY'] = '5457fae2a71f9331bf4bf3dd6813f90abeb33839f4608755ce301b9321c6'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fg.db'
+db = SQLAlchemy(app)
 socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -21,6 +27,24 @@ FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', 
             '4': '/static/fon_img/fon_12.gif', '5': '/static/fon_img/fon_5.gif', '6': '/static/fon_img/fon_6.jpg',
             '7': '/static/fon_img/fon_7.png', '8': '/static/fon_img/fon_8.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+class Users_hobby(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(500), nullable=False)
+    hobby = db.Column(db.String(500), unique=True)
+
+    def __repr__(self):
+        return f"<users {self.id}>"
+
+
+class Users_liked(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    liked = db.Column(db.String(500), unique=True)
+
+    def __repr__(self):
+        return f"<profiles {self.id}>"
 
 
 def allowed_file(filename):
@@ -168,7 +192,8 @@ def registration():
         except:
             system_error = 'Вас нет в системе, зарегистрируйтесь'
             return render_template('registration.html', error_1=error_1, error_2=error_2,
-                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3, error_3=error_3)
+                                   system_error=system_error, value_1=value_1, value_2=value_2, value_3=value_3,
+                                   error_3=error_3)
 
 
 @app.route('/change_fon', methods=['POST', 'GET'])
@@ -184,7 +209,7 @@ def change_fon():
             error = 'Может быть 1, 2 3...8'
             return render_template('change_fon.html', error=error)
         session['fon'] = FON_LIST[number]
-        connection = sqlite3.connect('db2/Reg_1.db')
+        connection = sqlite3.connect('db2/Reg_2.db')
         cursor = connection.cursor()
         cursor.execute('UPDATE Reg SET fon_img = ? WHERE name = ?', (session['fon'], session['name']))
         connection.commit()
@@ -195,8 +220,8 @@ def change_fon():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     session.permanent = True
-    avatar = 'static/img_2/profil.png'
-    fon = '/static/fon_img/fon_1.jpg'
+    avatar = '/static/img_2/profil.png'
+    fon = '/static/fon_img/fon_7.jpg'
     error_1, error_2, error_3, error_4 = '', '', '', ''
     value_1, value_2, value_3, value_4 = '', '', '', ''
     system_error = ''
@@ -211,7 +236,7 @@ def login():
         answer_4 = request.form.get('pasvord2')
         answer_1 = answer_1.title()
         value_1, value_2, value_3, value_4 = answer_1, answer_3, answer_4, answer_2
-        connection = sqlite3.connect('db2/Reg_1.db')
+        connection = sqlite3.connect('db2/Reg_2.db')
         cursor = connection.cursor()
         if answer_4 != answer_3:
             error_2 = 'Пароли не совпадают'
@@ -271,7 +296,7 @@ def personal_account():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             session['avatar'] = f'/static/avatar/{filename}'
-            connection = sqlite3.connect('db2/Reg_1.db')
+            connection = sqlite3.connect('db2/Reg_2.db')
             cursor = connection.cursor()
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
@@ -284,7 +309,7 @@ def personal_account():
 
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
-    connection = sqlite3.connect('db2/Reg_1.db')
+    connection = sqlite3.connect('db2/Reg_2.db')
     cursor = connection.cursor()
     session.permanent = True
     friends_avatars = []
@@ -406,5 +431,43 @@ def handleMessage(msg):
     send(str, broadcast=True)
 
 
+@app.route('/survey', methods=['POST', 'GET'])
+def survey():
+    df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
+    gf = {'КНИГИ': 'Топ 10 лучших книг', 'ФИЛЬМЫ': 'Топ 10 лучших фильмов', 'ИГРЫ': 'Топ 10 лучших игр'}
+    if request.method == 'GET':
+        with app.app_context():
+            res = Users_hobby.query.all()
+            for i in res:
+                if i.name == session['name']:
+                    sp = df[i.hobby]
+                    st = gf[i.hobby]
+                    return render_template('top.html', sp=sp, st=st)
+        return render_template('question.html')
+    elif request.method == 'POST':
+        df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
+        gf = {'КНИГИ': 'Топ 10 лучших книг', 'ФИЛЬМЫ': 'Топ 10 лучших фильмов', 'ИГРЫ': 'Топ 10 лучших игр'}
+        radio = request.form['radio']
+        u = Users_hobby(name=session['name'], hobby=radio)
+        db.session.add(u)
+        db.session.flush()
+        db.session.commit()
+        sp = df[radio]
+        st = gf[radio]
+        return render_template('top.html', sp=sp, st=st)
+
+
+@app.route('/vopros', methods=['POST', 'GET'])
+def vopros():
+    if request.method == 'GET':
+        return render_template('vopros.html')
+    elif request.method == 'POST':
+        u = Users_liked(name=session['name'], liked=request.form.get('comment'))
+        db.session.add(u)
+        db.session.flush()
+        db.session.commit()
+        return render_template('vopros.html')
+
+
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True, port=5000)
+    socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
