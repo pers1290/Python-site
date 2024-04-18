@@ -420,12 +420,25 @@ def handleMessage(msg):
 
 @app.route('/survey', methods=['POST', 'GET'])
 def survey():
+    df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
+    gf = {'КНИГИ': 'Топ 10 лучших книг', 'ФИЛЬМЫ': 'Топ 10 лучших фильмов', 'ИГРЫ': 'Топ 10 лучших игр'}
     if request.method == 'GET':
+        with app.app_context():
+            res = Users_hobby.query.all()
+            for i in res:
+                if i.name == session['name']:
+                    sp = df[i.hobby]
+                    st = gf[i.hobby]
+                    return render_template('top.html', sp=sp, st=st)
         return render_template('question.html')
     elif request.method == 'POST':
         df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
-        gf = {'КНИГИ': 'Тор 10 лучших книг', 'ФИЛЬМЫ': 'Тор 10 лучших фильмов', 'ИГРЫ': 'Тор 10 лучших игр'}
+        gf = {'КНИГИ': 'Топ 10 лучших книг', 'ФИЛЬМЫ': 'Топ 10 лучших фильмов', 'ИГРЫ': 'Топ 10 лучших игр'}
         radio = request.form['radio']
+        u = Users_hobby(name=session['name'], hobby=radio)
+        db.session.add(u)
+        db.session.flush()
+        db.session.commit()
         sp = df[radio]
         st = gf[radio]
         return render_template('top.html', sp=sp, st=st)
