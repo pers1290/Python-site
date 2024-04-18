@@ -30,7 +30,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 class Users_hobby(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(500), nullable=False)
     hobby = db.Column(db.String(500), unique=True)
 
@@ -39,7 +39,7 @@ class Users_hobby(db.Model):
 
 
 class Users_liked(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     liked = db.Column(db.String(500), unique=True)
 
