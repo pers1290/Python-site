@@ -387,13 +387,16 @@ def red():
             im = contr(im, co)
             im.save(f'static/img/{session["name"]}/red_.png')
         elif request.form.get('za') == 'v2':
-            con = sqlite3.connect('db2/User_2.db')
+            con = sqlite3.connect('db2/Posts.db')
             cur = con.cursor()
             result = cur.execute(f"""SELECT * FROM Users
-                        WHERE name = {session['name']}""").fetchall()
+                        WHERE name = ?""", (session['name'], )).fetchall()
             a = len(result)
-            res = f"""INSERT INTO expenses (name, img_url) VALUES({session['name']}, static/img/{session["name"]}/img{a + 1}.png)"""
-            cur.execute(res)
+            con.close()
+            con = sqlite3.connect('db2/Posts.db')
+            cur = con.cursor()
+            cur.execute("""INSERT INTO Reg name, img_url VALUES(?, ?)""",
+                        (session['name'], f'static/img/{session["name"]}/img{a + 1}.png'))
             con.close()
             return redirect("/tinttye")
     return render_template('red.html', immg=f"static/img/{session['name']}/red_.png", vall1=str(br), vall2=str(co), vall3=str(sa))
