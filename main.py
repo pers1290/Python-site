@@ -390,7 +390,7 @@ def red():
             con2 = sqlite3.connect('db2/Posts.db')
             cur2 = con2.cursor()
             cur2.execute('INSERT INTO Reg (name, img_url) VALUES (?, ?)',
-                         (session['name'], f"static/img/{session['name']}/{random.randint(1, 10000000)}/red_.png"))
+                         (session['name'], f"static/img/{session['name']}/red_.png"))
             con2.commit()
             con2.close()
             return redirect("/tinttye")
