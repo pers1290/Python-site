@@ -12,7 +12,7 @@ import random
 from flask_sqlalchemy import SQLAlchemy
 from book import book
 from game import game
-from parser import parser
+from films import parser
 
 app = Flask(__name__)
 load_dotenv()
