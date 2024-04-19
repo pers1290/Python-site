@@ -300,7 +300,6 @@ def personal_account():
         cursor = connection.cursor()
         cursor.execute('SELECT img_url FROM Reg WHERE name = ?', (name, ))
         users = cursor.fetchall()
-        print(users)
         connection.commit()
         connection.close()
         index_list = list(range(len(users)))
