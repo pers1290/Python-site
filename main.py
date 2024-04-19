@@ -23,12 +23,14 @@ socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+# картинки для фона
 FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg',
             '4': '/static/fon_img/fon_12.gif', '5': '/static/fon_img/fon_5.gif', '6': '/static/fon_img/fon_6.jpg',
             '7': '/static/fon_img/fon_7.png', '8': '/static/fon_img/fon_8.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+# таблица интересов
 class Users_hobby(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(500))
@@ -38,6 +40,7 @@ class Users_hobby(db.Model):
         return f"<users {self.id}>"
 
 
+# таблица для комментариев
 class Users_liked(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50))
@@ -47,6 +50,7 @@ class Users_liked(db.Model):
         return f"<profiles {self.id}>"
 
 
+# проверка на расширение загружаемой картинки
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -92,6 +96,7 @@ def exit():
     return redirect("/tinttye")
 
 
+# проверка на аторизованность пользователя
 @app.route('/test_1')
 def test_1():
     if 'name' not in session:
@@ -100,12 +105,22 @@ def test_1():
     return redirect("/change_fon")
 
 
+# проверка на аторизованность пользователя
 @app.route('/test_2')
 def test_2():
     if 'name' not in session:
         session['error'] = 'Авторизируйтесь!'
         return redirect("/tinttye")
     return redirect("/messenger")
+
+
+# проверка на аторизованность пользователя
+@app.route('/test_3')
+def test_3():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("/post")
 
 
 @app.route('/tinttye', methods=['POST', 'GET'])
