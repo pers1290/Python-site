@@ -4,8 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-# jkyqkquxqmdmcdnz
-# n6aa0nrNnd8KiaT4AZ7c
+# взаимодействие с почтой
 def send_mail(email, title, text):
     try:
         addr_form = os.getenv("FROM")

@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as BS
 import requests
 
 
+# получение топ 10 самых лучших игр
 def game():
     url = requests.get('https://www.geeksforgeeks.org/most-played-online-games-2024/')
     html = BS(url.content, 'html.parser')
