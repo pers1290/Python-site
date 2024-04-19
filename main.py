@@ -90,6 +90,7 @@ def index():
     return redirect("/tinttye")
 
 
+# выход из аккаунта
 @app.route('/exit')
 def exit():
     session.clear()
