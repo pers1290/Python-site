@@ -298,8 +298,9 @@ def personal_account():
     try:
         connection = sqlite3.connect('db2/Posts.db')
         cursor = connection.cursor()
-        cursor.execute('SELECT img_url FROM Reg WHERE name = ?', name)
+        cursor.execute('SELECT img_url FROM Reg WHERE name = ?', (name, ))
         users = cursor.fetchall()
+        print(users)
         connection.commit()
         connection.close()
         index_list = list(range(len(users)))
