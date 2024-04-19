@@ -298,7 +298,7 @@ def personal_account():
     try:
         connection = sqlite3.connect('db2/Posts.db')
         cursor = connection.cursor()
-        cursor.execute('SELECT img_url FROM Reg WHERE name = ?', (name, ))
+        cursor.execute('SELECT img_url FROM Reg WHERE name = ?', (name,))
         users = cursor.fetchall()
         connection.commit()
         connection.close()
@@ -322,7 +322,8 @@ def personal_account():
             cursor.execute('UPDATE Reg SET profil_img = ? WHERE name = ?', (session['avatar'], name))
             connection.commit()
             connection.close()
-            return render_template('personal_account.html', avatar=session['avatar'], name=name)
+            return render_template('personal_account.html', avatar=session['avatar'], index_list=index_list,
+                                   file_list=file_list, name=name)
     return render_template('personal_account.html', index_list=index_list, file_list=file_list,
                            avatar=session['avatar'],
                            name=name)
@@ -415,7 +416,7 @@ def red():
             con2 = sqlite3.connect('db2/Posts.db')
             cur2 = con2.cursor()
             result = cur2.execute(f"""SELECT * FROM Reg
-                    WHERE name = ?""", (session["name"], )).fetchall()
+                    WHERE name = ?""", (session["name"],)).fetchall()
             a = len(result)
             im.save(f'static/img/{session["name"]}/img{a + 1}.png')
             cur2.execute('INSERT INTO Reg (name, img_url) VALUES (?, ?)',
