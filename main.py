@@ -147,7 +147,7 @@ def tinttye():
         cursor.execute('SELECT * FROM Reg')
         users = cursor.fetchall()
         len_db = len(users)
-        index_list = list(range(len_db))
+        index_list = list(range(len_db))[::-1]
         connection.commit()
         connection.close()
         return render_template('main.html', file_list=users, index_list=index_list, fon=fon, avatar=avatar, name=name,
