@@ -23,12 +23,14 @@ socketio = SocketIO(app)
 UPLOAD_FOLDER = 'static/avatar/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+# картинки для фона
 FON_LIST = {'1': '/static/fon_img/fon_1.jpg', '2': '/static/fon_img/fon_2.jpg', '3': '/static/fon_img/fon_3.jpg',
             '4': '/static/fon_img/fon_12.gif', '5': '/static/fon_img/fon_5.gif', '6': '/static/fon_img/fon_6.jpg',
             '7': '/static/fon_img/fon_7.png', '8': '/static/fon_img/fon_8.jpg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+# таблица интересов
 class Users_hobby(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(500))
@@ -38,15 +40,17 @@ class Users_hobby(db.Model):
         return f"<users {self.id}>"
 
 
+# таблица для комментариев
 class Users_liked(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(500))
     liked = db.Column(db.String(500))
 
     def __repr__(self):
         return f"<profiles {self.id}>"
 
 
+# проверка на расширение загружаемой картинки
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -86,12 +90,14 @@ def index():
     return redirect("/tinttye")
 
 
+# выход из аккаунта
 @app.route('/exit')
 def exit():
     session.clear()
     return redirect("/tinttye")
 
 
+# проверка на аторизованность пользователя
 @app.route('/test_1')
 def test_1():
     if 'name' not in session:
@@ -100,6 +106,7 @@ def test_1():
     return redirect("/change_fon")
 
 
+# проверка на аторизованность пользователя
 @app.route('/test_2')
 def test_2():
     if 'name' not in session:
@@ -108,6 +115,16 @@ def test_2():
     return redirect("/messenger")
 
 
+# проверка на аторизованность пользователя
+@app.route('/test_3')
+def test_3():
+    if 'name' not in session:
+        session['error'] = 'Авторизируйтесь!'
+        return redirect("/tinttye")
+    return redirect("/post")
+
+
+# главная страница
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     fon = '/static/fon_img/fon_7.png'
@@ -148,6 +165,7 @@ def tinttye():
                                error=error, s='сброс')
 
 
+# авторизация
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     error_1 = ''
@@ -196,6 +214,7 @@ def registration():
                                    error_3=error_3)
 
 
+# сменить фон
 @app.route('/change_fon', methods=['POST', 'GET'])
 def change_fon():
     global FON_LIST
@@ -217,6 +236,7 @@ def change_fon():
         return redirect("/tinttye")
 
 
+# регистрация
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     session.permanent = True
@@ -269,6 +289,7 @@ def login():
         return redirect("/sms_cod")
 
 
+# личный кабинет
 @app.route('/personal_account', methods=['POST', 'GET'])
 def personal_account():
     session.permanent = True
@@ -307,6 +328,7 @@ def personal_account():
                            name=name)
 
 
+# мессенджер
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
     connection = sqlite3.connect('db2/Reg_2.db')
@@ -335,6 +357,7 @@ def messenger():
                                friends_avatars=friends_avatars, count=count, user_sms=user_sms)
 
 
+# загрузка фотографии для поста
 @app.route('/post', methods=['POST', 'GET'])
 def post():
     if request.method == 'POST':
@@ -371,6 +394,7 @@ def post():
     return render_template('post.html')
 
 
+# редактирование фотографии
 @app.route('/red', methods=['POST', 'GET'])
 def red():
     co = 0
@@ -403,6 +427,7 @@ def red():
                            vall3=str(sa))
 
 
+# отправка смс на почту
 @app.route('/sms_cod', methods=['POST', 'GET'])
 def sms_cod():
     if request.method == 'GET':
@@ -427,6 +452,7 @@ def sms_cod():
             return render_template('sms_cod.html', error='Неправильный код')
 
 
+# запись сообщений от пользователей в базу данных
 @socketio.on('message')
 def handleMessage(msg):
     str = f"{session['name']}: {msg}"
@@ -435,6 +461,7 @@ def handleMessage(msg):
     send(str, broadcast=True)
 
 
+# увлечение пользователя
 @app.route('/survey', methods=['POST', 'GET'])
 def survey():
     df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
@@ -462,6 +489,7 @@ def survey():
         return render_template('top.html', sp=sp, st=st)
 
 
+# комментарий для разработчиков
 @app.route('/vopros', methods=['POST', 'GET'])
 def vopros():
     if request.method == 'GET':
@@ -474,5 +502,6 @@ def vopros():
         return render_template('vopros.html')
 
 
+# запуск программы
 if __name__ == '__main__':
     socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
