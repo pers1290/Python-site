@@ -496,5 +496,6 @@ def vopros():
         return render_template('vopros.html')
 
 
+# запуск программы
 if __name__ == '__main__':
     socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
