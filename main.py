@@ -498,6 +498,4 @@ def vopros():
 
 # запуск программы
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     socketio.run(app, allow_unsafe_werkzeug=True, port=8080)
