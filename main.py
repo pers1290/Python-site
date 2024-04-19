@@ -123,6 +123,7 @@ def test_3():
     return redirect("/post")
 
 
+# главная страница
 @app.route('/tinttye', methods=['POST', 'GET'])
 def tinttye():
     fon = '/static/fon_img/fon_7.png'
@@ -163,6 +164,7 @@ def tinttye():
                                error=error, s='сброс')
 
 
+# авторизация
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     error_1 = ''
@@ -211,6 +213,7 @@ def registration():
                                    error_3=error_3)
 
 
+# сменить фон
 @app.route('/change_fon', methods=['POST', 'GET'])
 def change_fon():
     global FON_LIST
@@ -232,6 +235,7 @@ def change_fon():
         return redirect("/tinttye")
 
 
+# регистрация
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     session.permanent = True
@@ -284,6 +288,7 @@ def login():
         return redirect("/sms_cod")
 
 
+# личный кабинет
 @app.route('/personal_account', methods=['POST', 'GET'])
 def personal_account():
     session.permanent = True
@@ -322,6 +327,7 @@ def personal_account():
                            name=name)
 
 
+# мессенджер
 @app.route('/messenger', methods=['POST', 'GET'])
 def messenger():
     connection = sqlite3.connect('db2/Reg_2.db')
@@ -350,6 +356,7 @@ def messenger():
                                friends_avatars=friends_avatars, count=count, user_sms=user_sms)
 
 
+# загрузка фотографии для поста
 @app.route('/post', methods=['POST', 'GET'])
 def post():
     if request.method == 'POST':
@@ -386,6 +393,7 @@ def post():
     return render_template('post.html')
 
 
+# редактирование фотографии
 @app.route('/red', methods=['POST', 'GET'])
 def red():
     co = 0
@@ -413,6 +421,7 @@ def red():
                            vall3=str(sa))
 
 
+# отправка смс на почту
 @app.route('/sms_cod', methods=['POST', 'GET'])
 def sms_cod():
     if request.method == 'GET':
@@ -437,6 +446,7 @@ def sms_cod():
             return render_template('sms_cod.html', error='Неправильный код')
 
 
+# запись сообщений от пользователей в базу данных
 @socketio.on('message')
 def handleMessage(msg):
     str = f"{session['name']}: {msg}"
@@ -445,6 +455,7 @@ def handleMessage(msg):
     send(str, broadcast=True)
 
 
+# увлечение пользователя
 @app.route('/survey', methods=['POST', 'GET'])
 def survey():
     df = {'КНИГИ': book(), 'ФИЛЬМЫ': parser(), 'ИГРЫ': game()}
@@ -472,6 +483,7 @@ def survey():
         return render_template('top.html', sp=sp, st=st)
 
 
+# комментарий для разработчиков
 @app.route('/vopros', methods=['POST', 'GET'])
 def vopros():
     if request.method == 'GET':
