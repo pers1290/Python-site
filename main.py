@@ -415,7 +415,7 @@ def red():
             con2 = sqlite3.connect('db2/Posts.db')
             cur2 = con2.cursor()
             result = cur2.execute(f"""SELECT * FROM Reg
-                    WHERE name={session["name"]}""").fetchall()
+                    WHERE name = ?""", (session["name"], )).fetchall()
             a = len(result)
             im.save(f'static/img/{session["name"]}/img{a + 1}.png')
             cur2.execute('INSERT INTO Reg (name, img_url) VALUES (?, ?)',
